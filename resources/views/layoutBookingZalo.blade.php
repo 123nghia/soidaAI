@@ -312,13 +312,13 @@
                             @if($slug !="bibabo")
                                 <div class="flex" >
                                      <a  id ="poupgameJoin" class ="popupgame" style="display:none" onclick ="showRule()" href ="javascript:void(0)" >Luật chơi</a>
-                                     <a onclick="ToggleDisplayLogin('.status-modal-account',true,'Để xem lịch sử soi da online')"
+                                     <a onclick="ToggleDisplayLogin('.status-modal-account',true,'Để xem kết quả soi da')"
                                         href="javascript:void(0)"
                                         id="status__text__login"
                                         class=" btn_nav btn_nav-no-after navbar-a navbar-a"
                                         style="margin:auto;box-shadow:none; display: inline-block;">
                                       
-                                        Để xem lịch sử soi da online  
+                                        Để xem kết quả soi da  
                                         {{-- <i class="fa fa-gift" style="font-size:20px;color:red;"></i> --}}
                                     </a>
                     
@@ -599,7 +599,7 @@
                             Số 91 Đường N1, Khu dân cư Hiệp Thành, Phường Hiệp Thành, Quận 12, Thành phố Hồ Chí Minhh
                             </div> 
                             <div class="footer__global font--main">
-                                Hotline: <a class="font--main" href="tel:0917 891 007">0917 891 007</a> 
+                                Hotline: <a class="font--main" href="tel:0906 606 986">0906 606 986</a> 
                                 
                             </div> 
                             <div class="footer__global font--main"> 

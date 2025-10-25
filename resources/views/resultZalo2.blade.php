@@ -13,6 +13,7 @@
          }
 
          $dataMinisize =  session('dataminisize', null);
+         
 
        
 @endphp
@@ -21,6 +22,7 @@
 
     <script>
         var successGameTrue =  {!! json_encode($successGame) !!};
+        var showOrHide =  {!! json_encode($showOrHide) !!};
       
     </script>
 
@@ -89,10 +91,16 @@
 .toneColorSkin {
     font-family: SFU Futura !important;
     font-size: 14px;
+    padding-left: 10px;
+    padding-right: 10px;
 }
 .titleColor {
     margin-top:10px;
     margin-bottom: 10px;
+    color: rgb(70, 0, 221) !important;
+}
+.centerScreen {
+    text-align: center;
 }
 .toneColorSkin p {
     font-weight: bold !important;
@@ -105,6 +113,12 @@
     font-weight: bold !important;
     color: red;
 }
+.title2 {
+    
+    color: rgb(70, 0, 221) !important;
+    display:block;
+
+}
 .descrptionSkinColor{
     width: max-content;
     margin: auto;
@@ -113,16 +127,46 @@
 }
 .center-image {
     width: 100%;
-    height: 400px;
+    height: 240px;
     background-color: #CC5500;
     position: relative;
-    margin-top: 15px;
-    margin-bottom: 15px;
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
+
+@media only screen and (max-width: 700px) {
+    .center-image {
+    
+    height: 225px !important;
+ 
+}
+.skincolor {
+    margin :auto;
+
+    width: 96px;
+    height: 96px !important;
+    background-color: red;
    
+    border-radius: 50%;
+
+    transform:
+    perspective(75em)
+    rotateX(18deg);
+  box-shadow:
+    rgba(22, 31, 39, 0.42) 0px 60px 123px -25px,
+    rgba(19, 26, 32, 0.08) 0px 35px 75px -35px;
+  border-radius: 10px;
+  border: 1px solid;
+  border-color:
+    rgb(213, 220, 226)
+    rgb(213, 220, 226)
+    rgb(184, 194, 204);
+   
+   
+}
 .center-image  canvas{
-     width: 150px;
-     height: 150px;
+     width: 130px;
+     height: 130px;
 
      position: absolute;
     bottom: 0;
@@ -132,21 +176,42 @@
     margin: auto;
     max-width: 100%;
     max-height: 100%;
-     border-radius: 10px;
+     border-radius: 50%;
+   
+}
+}
+   
+.center-image  canvas{
+     width: 160px;
+     height: 160px;
+
+     position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    top: 0;
+    margin: auto;
+    max-width: 100%;
+    max-height: 100%;
+    border-radius: 50%;
    
 }
 .skincolor {
     margin :auto;
 
-    width: 112px;
-    height: 112px !important;
+    width: 80px;
+    height: 80px !important;
     background-color: red;
-    border-radius: 10px;
+    border-radius: 50%;
 }
 .skincolor:hover {
-    opacity: 0.8;
-    border: 1px solid  black;
+    opacity: 1;
+    border: 2px solid  black;
    
+}
+.activeSkin {
+    opacity: 1;
+    border: 2px solid  black;
 }
 .skincolor:active {
     opacity: 0.8;
@@ -169,7 +234,10 @@
 @endsection
 @section('contentpage')
 
+@if($slug !="neomtech")
+
 @includeIf("tuvanMinisize")
+@endif
 
 @if ( $zaloLink != "" )
 <a  id ="zaloMessage" style ="display:none"  onclick="OpenAction('zalo')" ><div style="position:fixed;bottom:70px;right:30px; z-index:1000" class="messenger"><noscript>
@@ -493,12 +561,14 @@
 @endif
 
  <div class ="toneColorSkin">
-    <p class="titleColor"> 
-        Liệu <span class ="title"> màu trang điểm, trang phục </span> đang dùng có hợp với <span class ="title"> tone màu da </span> của bạn chưa?
+    <p class="titleColor centerScreen"> 
+    
+        <span  class ="title2" > Màu trang điểm, quần áo.. </span>
+        <span  class ="title2" > Phù hợp với tone màu da của bạn</span>
     </p>
     <div class ="center-image" id ="backgroudColor">
          {{-- <img  id ="renderface" src ="/face.jpg"> --}}
-         <canvas id="canvasFace" width="150" height="150"></canvas>
+         <canvas id="canvasFace" width="160" height="160"></canvas>
     </div>
     <div class ="descrptionSkinColor" id ="descrptionSkinColorid">
         <p>Nhận diện tone màu da </p>  
@@ -508,7 +578,7 @@
     
     </div>
     <p class="titleColor"> 
-       Trải nghiệm với các màu
+        Màu phù hợp với tone màu da của bạn
     </p>
       
     <div class ="navbarColor" id ="containerColor">
@@ -574,7 +644,7 @@
                   
                 }
                 .ConcludeItem  {
-                font-family: SFU Futura;
+                font-family: 'Roboto', sans-serif;
                 font-style: normal;
                 font-size: 14px;
                 line-height: 20px;
@@ -678,7 +748,7 @@
                     .titletvtq {
                     margin-right: 5px;
                     font-weight: bold;
-                    font-family: SFU Futura;
+                    font-family: 'Roboto', sans-serif;
                     font-style: normal;
                     font-size: 14px;
                     line-height: 20px;
@@ -686,7 +756,7 @@
                     }
                     .paragraphText{
 
-                        font-family: SFU Futura;
+                        font-family: 'Roboto', sans-serif;
                         font-style: normal;
                         font-size: 14px;
                         line-height: 20px;
@@ -778,10 +848,12 @@
 
 
         <script>
-            function changeBackgroud(color)
+            function changeBackgroud(color, element)
             {
               
-                    
+            
+
+                $("#containerColor").removeClass("activeSkin");
                 var backgroudColor = document.getElementById("backgroudColor");
 
                 backgroudColor.style.background = color;
@@ -789,7 +861,8 @@
             var zaloLink = '{!! $zaloLink !!}';
             var messengerLink = '{!! $messengerLink !!}';
             function openRecomendProduct() {
-
+                window.open("https://docs.google.com/forms/d/12okhAa0PxC0nG4xCPmygGaqWF_ZTTiqV3sT3MJ2nXMA/edit",'_blank');   
+                return;
                 var base_url = window.location.origin + "/" + "soida/nhan-de-xuat-cham-soc-da";
 
 
@@ -1522,7 +1595,7 @@
     <script type="text/javascript" src="/js/contant.js"></script>
     <script type="text/javascript" src="/js/main.js"></script>
     <script type="text/javascript" src="/js/result.js"></script>
-
+    <script type="text/javascript" src="/marked.min.js"></script>
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <script>
@@ -1536,7 +1609,30 @@
             img.onload = function () {
             const c = document.getElementById('canvasFace');
             const ctx = c.getContext('2d');
-            ctx.drawImage(img,rectangleDraw.left,rectangleDraw.top ,rectangleDraw.width,rectangleDraw.height,0,0,150,150);
+            
+            var widthDraw =  rectangleDraw.width +rectangleDraw.width/5*2 ;
+            
+            if(widthDraw >300)
+            {
+                widthDraw = 299;   
+            }
+
+            var leftDraw = rectangleDraw.left- rectangleDraw.width/5;
+            if(leftDraw <0)
+            {
+                leftDraw = 1;
+            }
+            var heightDrawTop = rectangleDraw.top- rectangleDraw.height/2 ; 
+            if(heightDrawTop <0)
+            {
+                heightDrawTop =1;
+            }
+            var heightFace = rectangleDraw.height*1.7;
+            if(heightFace >=400)
+            {
+                heightFace = 399;
+            }
+            ctx.drawImage(img, rectangleDraw.left ,rectangleDraw.top ,rectangleDraw.width,rectangleDraw.height,0,0,160,160);
             }
 
         }
@@ -1630,7 +1726,7 @@
                 if(i  > 0)
                 {
                     htmlSkin += ` <div class ="containerSkin">
-                <div class ="skincolor" style ="background-color:`+ itemColor+` !important " onclick="changeBackgroud('`+itemColor+`')" > 
+                <div class ="skincolor" style ="background-color:`+ itemColor+` !important " onclick="changeBackgroud('`+itemColor+`', this)" > 
 
                 </div>
             </div> `;
@@ -1660,7 +1756,7 @@
         }
 
         document.addEventListener("DOMContentLoaded", function() {
-   
+                
 
              
             var showRecomend =  sessionStorage.getItem("showRecomend");
@@ -1745,7 +1841,7 @@
             setTimeout(() => {
                 $('.navbarColor').slick({
                 slidesToShow: 4,
-                slidesToScroll: 2,
+                slidesToScroll: 1,
                 centerMode: true,
                 centerPadding: '40px',
                 autoplay: true,
@@ -1756,7 +1852,7 @@
       breakpoint: 1024,
       settings: {
         slidesToShow: 4,
-        slidesToScroll: 2,
+        slidesToScroll: 1,
         centerMode: true,
                 centerPadding: '40px',
         infinite: true,
@@ -1766,7 +1862,7 @@
     {
       breakpoint: 600,
       settings: {
-        slidesToShow: 3,
+        slidesToShow: 4,
         centerMode: true,
                 centerPadding: '30px',
         slidesToScroll: 1
@@ -1775,7 +1871,7 @@
     {
       breakpoint: 480,
       settings: {
-        slidesToShow: 2,
+        slidesToShow: 3,
         centerMode: true,
                 centerPadding: '40px',
         slidesToScroll: 1
@@ -1788,7 +1884,7 @@
           
 
               });
-            }, 1500);
+            }, 2000);
 
         
                 
@@ -1833,8 +1929,11 @@ let isPlaying = false;
 
 setTimeout(() => {  
     document.getElementById("fromResiger").style.display ="block";
+
+    // $("#status__text__login").click();
    
 }, 5000);
+
 
 
 
@@ -1954,11 +2053,12 @@ function OpenAction ( connectionType)
 function openRegister ( connectionType ="minisize")
 {   
 
+//     window.open("https://chat.zalo.me/",'_blank');
+//   return;
    addContionType(connectionType);
    zaloLink =  "{{$dataMinisize->linkRegister}}";
    changeFormTuvan();
-
-   window.open(zaloLink,'_self');
+   window.open(zaloLink,'_blank');
    return;
 }
 

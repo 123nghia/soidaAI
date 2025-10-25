@@ -21,6 +21,9 @@
 
     <script>
         var successGameTrue =  {!! json_encode($successGame) !!};
+        var showOrHide =  {!! json_encode($showOrHide) !!};
+        var dataConfigAI =  {!! json_encode($dataConfigAI) !!};
+        
       
     </script>
 
@@ -55,6 +58,8 @@
     <link rel="stylesheet" href="/styles/global/index.css">
     <link rel="stylesheet" href="/styles/global/global_responsive.css">
     <link rel ="stylesheet" href ="/css/welcomNew.css">
+    <link rel ="stylesheet" href ="/css/drawContentAI.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.min.js"></script>
     <!-- ASSETS CDN SLICK -->
     <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
     <script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
@@ -82,6 +87,73 @@
 }   
     </style>
 
+<style>
+  .ai-loading-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px 20px;
+  font-family: 'Segoe UI', sans-serif;
+  color: #2c3e50;
+  animation: fadeInUp 1s ease;
+}
+
+.ai-loader-circle {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 18px;
+  height: 24px;
+}
+
+.dot {
+  width: 12px;
+  height: 12px;
+  background-color: #3498db;
+  border-radius: 50%;
+  animation: bouncing 1.2s infinite ease-in-out;
+}
+
+.dot:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.dot:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+@keyframes bouncing {
+  0%, 80%, 100% { transform: scale(0.6); opacity: 0.5; }
+  40% { transform: scale(1.2); opacity: 1; }
+}
+
+.ai-loading-text {
+  text-align: center;
+  font-size: 18px;
+  line-height: 1.6;
+}
+
+.ai-loading-text .line-1 {
+  font-weight: 500;
+  margin-bottom: 4px;
+}
+
+.ai-loading-text .line-2 {
+  font-style: italic;
+  color: #7f8c8d;
+}
+
+/* Fade-in tổng */
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+</style>
 
 
 <style>
@@ -231,6 +303,7 @@
 </style>
 @endsection
 @section('contentpage')
+
 
 @includeIf("tuvanMinisize")
 
@@ -639,7 +712,7 @@
                   
                 }
                 .ConcludeItem  {
-                font-family: SFU Futura;
+                font-family: 'Roboto', sans-serif;
                 font-style: normal;
                 font-size: 14px;
                 line-height: 20px;
@@ -727,10 +800,22 @@
             <div id ="ConcludeItemArea" class ="blurdiv1" >
         
             </div>
-        
+            <div class="title-overview "   >
+                    <div class="hcn">
+
+                    </div>
+                    <div class="title-larger">
+                    Chuẩn đoán & tư vấn da
+                    </div>
+
+            </div>
+
+            <div id ="contentResultAI">
+
+            </div>
 
 
-                <div class="title-overview blurdiv1" id ="tvtq_area"  >
+                <div class="title-overview blurdiv1" id ="tvtq_area" style =" display:none;"   >
                     <div class="hcn">
 
                     </div>
@@ -743,7 +828,7 @@
                     .titletvtq {
                     margin-right: 5px;
                     font-weight: bold;
-                    font-family: SFU Futura;
+                    font-family: 'Roboto', sans-serif;
                     font-style: normal;
                     font-size: 14px;
                     line-height: 20px;
@@ -751,7 +836,7 @@
                     }
                     .paragraphText{
 
-                        font-family: SFU Futura;
+                        font-family: 'Roboto', sans-serif;
                         font-style: normal;
                         font-size: 14px;
                         line-height: 20px;
@@ -765,6 +850,7 @@
                 </style>
                 <div id="idtuvantongquan" class="blurdiv1"  style="
                 text-align: justify;
+                display:none;
            
                 padding: 10px;
             ">
@@ -795,10 +881,124 @@
 
                 </div>
                 @endif
-                
-
+            
             </div>
-            <div class="recomend-title-box" id ="hideProductList"> 
+               <style>
+
+                .save-button {
+  position: fixed;
+  bottom: 80px;
+  right: 20px;
+  background: linear-gradient(to right, #00b4db, #0083b0);
+  color: #fff;
+  border: none;
+  padding: 12px 20px;
+  font-size: 16px;
+  border-radius: 30px;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  transition: transform 0.2s ease, background 0.3s;
+  z-index: 9999;
+}
+
+.save-button:hover {
+  transform: scale(1.05);
+  background: linear-gradient(to right, #00c6ff, #0072ff);
+}
+
+@media (max-width: 768px) {
+  .save-button {
+    bottom: 100px;
+    right: 10px;
+    font-size: 14px;
+    padding: 10px 16px;
+  }
+}
+
+                </style>
+   
+
+{{-- <a href="https://m.me/tikitech.vn" target="_blank" id="messengerButton" class="messenger-float">
+  <img src="https://cdn-icons-png.flaticon.com/512/1384/1384053.png" alt="Messenger Icon">
+  <span>Liên hệ tư vấn</span>
+</a> --}}
+
+<style>
+.messenger-float {
+  position: fixed;
+  bottom: 130px; /* cao hơn nút lưu PDF */
+  right: 20px;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  background-color: #0084FF;
+  color: #fff;
+  padding: 10px 16px;
+  border-radius: 30px;
+  font-weight: bold;
+  font-size: 15px;
+  text-decoration: none;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+  transition: all 0.3s ease;
+  animation: floatPulse 1.8s infinite;
+}
+.messenger-float img {
+  width: 20px;
+  height: 20px;
+  margin-right: 8px;
+  animation: bounce 2s infinite;
+}
+.messenger-float:hover {
+  background-color: #005FCC;
+  transform: scale(1.05);
+}
+
+@keyframes floatPulse {
+  0% { box-shadow: 0 0 0 0 rgba(0,132,255,0.4); }
+  70% { box-shadow: 0 0 0 12px rgba(0,132,255,0); }
+  100% { box-shadow: 0 0 0 0 rgba(0,132,255,0); }
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
+}
+</style>
+
+<!-- CSS -->
+<style>
+.contact-btn {
+  position: fixed;
+  bottom: 100px;
+  right: 30px;
+  z-index: 9999;
+  background: #0084FF;
+  color: white;
+  padding: 12px 18px;
+  font-size: 16px;
+  border-radius: 40px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  transition: all 0.3s ease;
+  animation: pulse 1.5s infinite;
+}
+.contact-btn:hover {
+  background: #005FCC;
+  transform: scale(1.05);
+}
+
+
+@keyframes pulse {
+  0% { box-shadow: 0 0 0 0 rgba(0,132,255,0.5); }
+  70% { box-shadow: 0 0 0 10px rgba(0,132,255,0); }
+  100% { box-shadow: 0 0 0 0 rgba(0,132,255,0); }
+}
+</style>
+
+  <div class="recomend-title-box" id ="hideProductList"> 
 
 <div class="centerText"> 
 <p>GỢI Ý TỪ CHUYÊN GIA</p>
@@ -817,21 +1017,7 @@
 </div>
 
             @if (1==1)
-            <div class="content-plugin" id ="buttonRecomand">
-                
-               
-                <div class="box-class-center" style="height:77px">
-                    <div class=" nav-button  spaceAjustVer btnrecomend">
-
-                        <a href="javascript:void(0)" onclick="openRecomendProduct()" style="width: 234px !important">
-                            <img src="/images/arrow.png"> GỢI Ý CHĂM SÓC TỪ CHUYÊN GIA </a>
-
-                    </div>
-                </div>
-
-
-
-            </div>
+           @include("extra")
 
             @endif
 
@@ -1588,8 +1774,9 @@
 
     <script type="text/javascript" src="/js/contant.js"></script>
     <script type="text/javascript" src="/js/main.js"></script>
+    <script type="text/javascript" src="/js/cacluateAI.js"></script>
     <script type="text/javascript" src="/js/result.js"></script>
-
+   <script type="text/javascript" src="/marked.min.js"></script>
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <script>
@@ -1750,9 +1937,6 @@
         }
 
         document.addEventListener("DOMContentLoaded", function() {
-   
-
-             
             var showRecomend =  sessionStorage.getItem("showRecomend");
 
             var urlHref =  window.location.href;
@@ -1826,6 +2010,7 @@
             drawConcludeOverview(objectReponse.data.facedata.hintResult);
             avgScore();
             drawProduction(objectReponse.data.facedata.hintResult);
+            drawResultAI();
             if(  turnOffGame == true)
             {
 
@@ -2053,6 +2238,28 @@ function openRegister ( connectionType ="minisize")
 }
 
 
+function savePDF() {
+  const element = document.body; // hoặc bạn chọn vùng riêng như document.getElementById("ketqua")
+   const today = new Date();
+  const dd = String(today.getDate()).padStart(2, '0');
+  const mm = String(today.getMonth() + 1).padStart(2, '0'); // Tháng bắt đầu từ 0
+  const yyyy = today.getFullYear();
+  const filename = `ket-qua-soi-da-ngay-${dd}-${mm}-${yyyy}.pdf`;
+  const opt = {
+     margin: 0.5,
+  filename: filename,
+  image: { type: 'jpeg', quality: 0.98 },
+  html2canvas: {
+    scale: 2,
+    useCORS: true,       // ⚠️ Thêm dòng này
+    allowTaint: true     // Nếu dùng ảnh base64
+  },
+  jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
+  };
+
+  html2pdf().set(opt).from(element).save();
+}
+
 </script>
 
 
@@ -2208,5 +2415,7 @@ background-color: transparent;
  color: #ffffff;
 }
 </style>
+
+
 
 

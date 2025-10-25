@@ -1,48 +1,7 @@
-@font-face {
-    font-family: "SFU Futura";
-    src: url("../fonts/SFUFuturaRegular.TTF")
-}
-
-@font-face {
-    font-family: "SFU Futura";
-    font-style: normal;
-    font-weight: normal;
-    src: url("../fonts/SFUFuturaRegular.TTF")
-}
-
-@font-face {
-    font-family: "SFU Futura";
-    src: url("../fonts/SFUFuturaBold.TTF");
-    font-weight: bold
-}
-
-@font-face {
-    font-family: "SFU Futura";
-    src: url("../fonts/SFUFuturaObliqueTTF.TTF");
-    font-style: oblique
-}
-
-@font-face {
-    font-family: "SFU Futura";
-    src: url("../fonts/SFUFuturaObliqueTTF.TTF");
-    font-style: italic
-}
-
-@font-face {
-    font-family: "SFU Futura";
-    src: url("../fonts/SFUFuturaBoldOblique.TTF");
-    font-weight: bold;
-    font-style: italic
-}
-
-@font-face {
-    font-family: "SFU Futura";
-    src: url("../fonts/SFUFuturaLight.TTF");
-    font-style: lighter
-}
+@import  'font';
 
 html {
-    font-family: SFU Futura;
+    font-family: 'Roboto', sans-serif;
     width: 100%;
     height: 100%;
     overflow-x: hidden
@@ -72,7 +31,7 @@ body {
 }
 
 .content-page .content-plugin .banner .titleBanner {
-    font-family: SFU Futura;
+    font-family: 'Roboto', sans-serif;
     font-style: normal;
     font-weight: bold;
     font-size: 120px;
@@ -92,7 +51,7 @@ body {
     margin-left: 10px;
     margin-bottom: 5px;
     display: flex;
-    font-family: SFU Futura;
+    font-family: 'Roboto', sans-serif;
     font-size: 70px !important;
     font-size: 59px;
     line-height: 62px;
@@ -119,7 +78,7 @@ body {
 }
 
 .content-page .content-plugin .hadernav .title-header .ai {
-    font-family: SFU Futura;
+    font-family: 'Roboto', sans-serif;
     font-style: normal;
     font-weight: bold;
     font-size: 22px;
@@ -129,7 +88,7 @@ body {
 
 .content-page .content-plugin .hadernav .sologan {
     display: flex;
-    font-family: SFU Futura;
+    font-family: 'Roboto', sans-serif;
     font-style: normal;
     font-weight: bold;
     font-size: 16px;
@@ -193,7 +152,7 @@ body {
 }
 
 .nav-button a {
-    font-family: SFU Futura;
+    font-family: 'Roboto', sans-serif;
     background-color: #3c77e3;
     color: #fff !important;
     padding: 10px 14px;
@@ -294,7 +253,7 @@ p {
 }
 
 .bold-text {
-    font-family: SFU Futura;
+    font-family: 'Roboto', sans-serif;
     font-style: normal;
     font-weight: bold;
     font-size: 16px;
@@ -305,7 +264,7 @@ p {
 }
 
 .normal-text {
-    font-family: SFU Futura;
+    font-family: 'Roboto', sans-serif;
     font-style: lighter;
     font-size: 16px;
     line-height: 22px;
@@ -359,7 +318,7 @@ p {
     right: 20;
     bottom: 30px;
     color: #636c88;
-    font-family: SFU Futura;
+    font-family: 'Roboto', sans-serif;
     font-size: 14px
 }
 
@@ -398,7 +357,7 @@ p {
 
 .nav-menu .uploadButton .text a {
     margin: auto;
-    font-family: SFU Futura;
+    font-family: 'Roboto', sans-serif;
     font-style: normal;
     font-weight: bold;
     font-size: 12px;
@@ -435,7 +394,7 @@ p {
 }
 
 .boldTitle {
-    font-family: SFU Futura;
+    font-family: 'Roboto', sans-serif;
     font-weight: bold;
     font-size: 12px;
     line-height: 17px;
@@ -444,7 +403,7 @@ p {
 }
 
 .startPage-boldTitle {
-    font-family: SFU Futura;
+    font-family: 'Roboto', sans-serif;
     font-style: normal;
     font-weight: bold;
     font-size: 12px;
@@ -460,7 +419,7 @@ p {
 }
 
 .description-text p {
-    font-family: SFU Futura;
+    font-family: 'Roboto', sans-serif;
     font-style: normal;
     font-weight: normal;
     font-size: 12px;
@@ -518,7 +477,7 @@ p {
     padding: 14px 16px;
     font-size: 17px;
     width: 25%;
-    font-family: SFU Futura;
+    font-family: 'Roboto', sans-serif;
     font-style: normal;
     font-weight: bold;
     font-size: 12px;
@@ -556,7 +515,7 @@ p {
 }
 
 .tabcontent .modalpopup .descriptionContent {
-    font-family: SFU Futura;
+    font-family: 'Roboto', sans-serif;
     font-style: normal;
     font-weight: normal;
     font-size: 12px;
@@ -617,7 +576,7 @@ p {
 }
 
 .modalpopup .descriptionContent {
-    font-family: SFU Futura;
+    font-family: 'Roboto', sans-serif;
     font-style: normal;
     font-weight: normal;
     font-size: 12px;
@@ -645,9 +604,9 @@ p {
     width: 100%;
     align-items: center;
     justify-content: center;
-    font-family: SFU Futura;
+    font-family: 'Roboto', sans-serif;
     background-color: #e9f3ff;
-    font-family: SFU Futura;
+    font-family: 'Roboto', sans-serif;
     font-style: normal;
     font-weight: normal;
     font-size: 12px;
@@ -666,7 +625,7 @@ p {
 }
 
 .box-modal-suggestion {
-    font-family: SFU Futura;
+    font-family: 'Roboto', sans-serif;
     font-style: normal;
     font-weight: normal;
     font-size: 15px;
@@ -689,7 +648,7 @@ p {
 }
 
 .resultNote .text-title-paragraph {
-    font-family: SFU Futura;
+    font-family: 'Roboto', sans-serif;
     font-style: normal;
     font-weight: bold;
     font-size: 14px;
@@ -698,7 +657,7 @@ p {
 }
 
 .resultNote .description {
-    font-family: SFU Futura;
+    font-family: 'Roboto', sans-serif;
     font-style: normal;
     font-weight: normal;
     font-size: 14px;
@@ -738,7 +697,7 @@ p {
 }
 
 .result-list .result-item .content-description span {
-    font-family: SFU Futura;
+    font-family: 'Roboto', sans-serif;
     font-style: normal;
     font-weight: 300;
     font-size: 12px;
@@ -752,7 +711,7 @@ p {
 
 .result-list .result-item .content-description a {
     color: #1c213f;
-    font-family: SFU Futura;
+    font-family: 'Roboto', sans-serif;
     font-style: normal;
     font-weight: 300;
     font-size: 12px;
@@ -767,7 +726,7 @@ p {
 
 .result-list .result-item .content-description li {
     padding-left: 0rem !important;
-    font-family: SFU Futura;
+    font-family: 'Roboto', sans-serif;
     font-style: normal;
     font-weight: 300;
     font-size: 12px;
@@ -815,7 +774,7 @@ p {
 }
 
 .button-nav a {
-    font-family: SFU Futura;
+    font-family: 'Roboto', sans-serif;
     font-style: normal;
     font-weight: bold;
     font-size: 12px;
@@ -1008,7 +967,7 @@ li {
 }
 
 .popupgamedisplay {
-    font-family: SFU Futura;
+    font-family: 'Roboto', sans-serif;
     text-align: center;
     color :var(--main_color);
     h6 {

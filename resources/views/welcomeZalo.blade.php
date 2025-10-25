@@ -1,4 +1,4 @@
-@php
+    @php
     $dataSeo = "Soida liền tay";
     $dataLikn =  session('TuVanData', null);
 
@@ -125,7 +125,11 @@
 
     <script>
         var slugGlobal = {!! json_encode($slug) !!};
+        var  showOrHide = {!! json_encode($showOrHide) !!};
+    
     </script>
+       
+
     <div id="b-placeholder">
 
 
@@ -330,9 +334,18 @@
 
 
             <div class="nav-menu" id ="cammeraButton"  style ="display:none">
-
+                    
+          
 
                 <div class="uploadButton cameraNow" >
+                    @if($slug =="demo")
+                        <div class="action-cta action-cta-take ">
+                        <input type="button" onclick="choseImage()" class="upload-file">
+                        <div class="icn"><img src="./assets/choseImage.svg" alt="" class="selfie"></div>
+                        <div class="txt">Chọn ảnh</div>
+                        </div>
+                    @endif
+                   
 
                     <div class="nav-avatar nav-avatar__camera" onclick="haldleOpenCamera()" style="
                     background-color: red;
@@ -352,9 +365,9 @@
 
                     </div>
                     <div class="text">
-                                                <a href="javascript:void(0)" onclick="haldleOpenCamera()">Soi da ngay
+                                                <a href="javascript:void(0)" onclick="haldleOpenCamera()">Soi da ngay 
                         </a>
-                                            </div>
+                    </div>
                 </div>
                 
 
@@ -1552,11 +1565,6 @@ function ShowZalo() {
     
     addClickZalo2(connectionType);
     window.open(linkRegister,'_self');
-
-  
-
- 
-   
  
 }
     var timeGet = new Date().getTime();

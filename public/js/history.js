@@ -116,28 +116,29 @@ $.ajax({
   contentType: "application/json; charset=utf-8",
   success: async function (data) {
      return;
-    
-
   },
   complete: function (data) {
-    setTimeout(() => {
-              
+
+    var historyId =data.responseJSON.historyId;
+    sessionStorage.setItem('historyId', historyId);
+
+    var dataCheckRegion  = data.responseJSON.dataCheckRegion;
+    sessionStorage.setItem('dataCheckRegion', JSON.stringify(dataCheckRegion));
+
+        setTimeout(() => {
+                var base_url = window.location.origin + "/" + "soida/ket-qua";
+                if(slugGlobal != null  &&  slugGlobal !== "")
+                {
+                    base_url = window.location.origin + "/" + slugGlobal +"/" + "ket-qua";
             
-              var base_url = window.location.origin + "/" + "soida/ket-qua";
-              if(slugGlobal != null  &&  slugGlobal !== "")
-              {
-                  base_url = window.location.origin + "/" + slugGlobal +"/" + "ket-qua";
-          
-              }
-              if(slugGlobal =="book")
-              {
-                var bookSlug =  window.location.pathname.split("/").pop();
-                base_url = window.location.origin + "/" + slugGlobal +"/"+ bookSlug +"/" + "ket-qua";
-              }
-              window.open(base_url,"_self")
-          
-          
-          }, 1000);
+                }
+                if(slugGlobal =="book")
+                {
+                  var bookSlug =  window.location.pathname.split("/").pop();
+                  base_url = window.location.origin + "/" + slugGlobal +"/"+ bookSlug +"/" + "ket-qua";
+                }
+                window.open(base_url,"_self")
+            }, 1000);
 
 
   },
@@ -400,6 +401,7 @@ function openDetaiIfram(hreflinkTarget = null, isShow = true) {
   }
 }
 function openHistoryPage() {
+  return;
   if (typeof slugGlobal === "undefined" || slugGlobal == null) {
     window.location.href = "/lich-su-soi-da-with-iframe";
   } else {

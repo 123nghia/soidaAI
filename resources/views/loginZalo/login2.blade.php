@@ -55,14 +55,55 @@
                             </div>
                         </div>
 
-                        <div class="form-group">
-                                <input name="phoneRel" type="text" class="my-form-control userName" id="phoneRel"
-                                    placeholder="Số điện thoại người giới thiệu" />
-                                <div class="errorMesssage" id="phoneRel">
-                                    Không dược bỏ trống
+                        @if($slug =="bsnho")
+                            <div class="form-group" style ="display:none">
+                                    <input name="phoneRel"  type="text" class="my-form-control userName" id="phoneRel"
+                                        placeholder="Số điện thoại người giới thiệu " value ="" />
+                                    <div class="errorMesssage" id="phoneRel">
+                                        Không dược bỏ trống
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        @else
+
+
+                        @if( $slug == "exomiyo")
+                              
+                                <div class="form-group">
+                                        <input name="ageUser" type="text" class="my-form-control userName" id="ageUser"
+                                            placeholder="Nhập tuổi của ban" />
+                                        <div class="errorMesssage" id="ageUser1">
+                                            Không dược bỏ trống
+                                        </div>
+                                   
+                                </div>
+                                <div class="form-group" style= "display:none">
+                                        <input name="phoneRel" type="text" class="my-form-control userName" id="phoneRel"
+                                            placeholder="Số điện thoại người giới thiệu  " />
+                                        <div class="errorMesssage" id="phoneRelError">
+                                            Không dược bỏ trống
+                                        </div>
+                                    
+                                </div>
+                              
+
+                        @else 
+                          
+                                <div class="form-group">
+                                        <input name="phoneRel" type="text" class="my-form-control userName" id="phoneRel"
+                                            placeholder="Số điện thoại người giới thiệu" />
+                                        <div class="errorMesssage" id="phoneRel">
+                                            Không dược bỏ trống
+                                        </div>
+                                    </div>
+                                </div>
+                              
+
+                       
+                        @endif
+                        @endif
+
+                       
 
                         <div class="form-group">
                             <div id="togglePassPj">

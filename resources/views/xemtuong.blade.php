@@ -110,6 +110,7 @@
 
     <script>
         var slugGlobal = {!! json_encode($slug) !!};
+        var  showOrHide = {!! json_encode($showOrHide) !!};
     </script>
     <div id="b-placeholder">
 
@@ -1466,7 +1467,7 @@ function ShowZalo() {
     function openRegister1 ( connectionType ="minisize")
 {   
 
-    ToggleDisplayLogin('.status-modal-account',true,'Để xem lịch sử soi da online');
+    ToggleDisplayLogin('.status-modal-account',true,'Để xem kết quả soi da');
  
 }
     var timeGet = new Date().getTime();

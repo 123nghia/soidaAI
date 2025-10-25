@@ -41,7 +41,7 @@
                     .titletvtq {
                     margin-right: 5px;
                     font-weight: bold;
-                    font-family: SFU Futura;
+                    font-family: 'Roboto', sans-serif;
                     font-style: normal;
                     font-size: 14px;
                     line-height: 20px;
@@ -49,7 +49,7 @@
                     }
                     .paragraphText{
 
-                        font-family: SFU Futura;
+                        font-family: 'Roboto', sans-serif;
                         font-style: normal;
                         font-size: 14px;
                         line-height: 20px;
@@ -757,7 +757,7 @@ margin: auto;
                   
                 }
                 .ConcludeItem  {
-                font-family: SFU Futura;
+                font-family: 'Roboto', sans-serif;
                 font-style: normal;
                 font-size: 14px;
                 line-height: 20px;

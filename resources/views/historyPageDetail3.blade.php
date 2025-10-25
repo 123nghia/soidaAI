@@ -114,6 +114,7 @@
     @include ("popupGame.popup")
     <script>
         var slugGlobal = {!! json_encode($slug) !!};
+         var resultAI =  {!! json_encode($resultAI) !!};
     </script>
     {{-- <div class="modal" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
     aria-hidden="true">
@@ -1015,7 +1016,7 @@ function OpenAction ( connectionType)
     function openRegister ( connectionType ="minisize")
 {   
 
-    ToggleDisplayLogin('.status-modal-account',true,'Để xem lịch sử soi da online');
+    ToggleDisplayLogin('.status-modal-account',true,'Để xem kết quả soi da');
  
 }
 

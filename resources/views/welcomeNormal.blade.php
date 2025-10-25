@@ -374,7 +374,10 @@
 
 
         </div>
+        <script>
+        var  showOrHide = {!! json_encode($showOrHide) !!};
 
+        </script>
 
        
 
@@ -400,15 +403,7 @@
 
 
         <script>
-            //   setTimeout(() => {
-                  
-            //         document.getElementById("socialBLock").style.display = "block";
-
-                    
-
-
-                    
-            //     }, 1000);
+         
             window.scrollTo({
                 top: 0,
                 behavior: "smooth",
@@ -418,25 +413,12 @@
        
         </script>
         <script>
-            // setTimeout(() => {
-            //         document.getElementById("cammeraButton").style.display ="grid";
-                
-
-                    
-
-
-                    
-            //     }, 2500);
+          
               function hideTips() {
                 var tips = document.getElementById("tips");
                 tips.style.display = "none";
                 setTimeout(() => {
                     document.getElementById("cammeraButton").style.display ="grid";
-                    // document.getElementById("socialBLock").style.display = "block";
-
-                    
-
-
                     
                 }, 500);
                 var audio = document.createElement("AUDIO")
@@ -446,9 +428,6 @@
                 audio.muted = true;
                 audio.muted = false;
                 audio.play();
-              
-                
-               
                 audio.onended = function() {
                           return;
                         setTimeout(() => {

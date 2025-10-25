@@ -140,6 +140,7 @@ public function getDataInfo (Request $request)
           
             if($data->is_success)
             {
+           
                 
                 $dataInfo = json_decode($data->data[0]->Value);
                 
@@ -246,8 +247,23 @@ public function getDataInfo (Request $request)
     }
     
     public function index (Request $request, $slug =null) 
-    {  
+    { 
         
+
+        $url1 = "https://api-soida.applamdep.com/api/distribution/getRoudRobin";
+        $client = new Client();
+        $res = $client->request('get', $url1);
+
+        $dataGlobal =null;
+        $link = "/soida";
+        if($res->getStatusCode() ==200)
+        {   
+            $checkresult = $res->getBody()->getContents();
+            $data = json_decode($checkresult);
+            $link =  $data->data->link;
+        }
+       
+        return redirect($link);
         $typeLogin =  session('typeLogin', null);
        
         $dataUpdate = [];
@@ -263,7 +279,7 @@ public function getDataInfo (Request $request)
 
         $dataGlobal =null;
         if($res->getStatusCode() ==200)
-        {
+        {   
             $checkresult = $res->getBody()->getContents();
             $data = json_decode($checkresult);
             $dataGlobal = $data->data;
@@ -519,10 +535,42 @@ public function getDataInfo (Request $request)
       
           
               session(['TuVanData' =>$result]);
+            
          }
          
          return false;
     }
+
+
+
+    private function getHistoryById()
+    {
+        return false;
+    
+        $url ="https://api-soida.applamdep.com/api/get-hisotry-by-ip";
+        $ipClinet = "115.79.192.86";
+        $client = new Client();
+      
+        $res =$client->request('post', 'https://api-soida.applamdep.com/api/get-hisotry-by-ip', [
+            'json' => [
+                 'ipRequest'=> $ipClinet
+              ]
+        ]);
+        if($res->getStatusCode() ==200)
+        {
+            $checkresult = $res->getBody()->getContents();
+            $checkresult = json_decode($checkresult);
+          
+            $result = $checkresult->data;
+
+          
+
+            session(['dataHistoryRecord' =>$result]);
+            
+         }
+         return false;
+    }
+
 
     private function getGameXemtuong($companyId)
     {
@@ -577,6 +625,36 @@ public function getDataInfo (Request $request)
          return null;
     }
 
+
+    private function getAIConfig($slug)
+    {
+
+        $url ="https://api-soida.applamdep.com/api/aiConfig/getInfo";
+        $client = new Client();
+      
+
+        $res = $client->request('get', $url, [
+            'query' => [
+                'slug'=> $slug
+              ]
+        ]);
+
+        if($res->getStatusCode() ==200)
+        {
+            $checkresult = $res->getBody()->getContents();
+            $checkresult = json_decode($checkresult);
+            $result = $checkresult->data;
+
+       
+           
+            session(['dataaiConfig' =>$result]);
+             return $result;
+            
+         }
+      
+         return null;
+    }
+
     private function getGameMinisize($companyId)
     {
 
@@ -595,6 +673,8 @@ public function getDataInfo (Request $request)
             $checkresult = $res->getBody()->getContents();
             $checkresult = json_decode($checkresult);
             $result = $checkresult->data;
+
+       
            
             session(['dataminisize' =>$result]);
              return $result;
@@ -603,18 +683,51 @@ public function getDataInfo (Request $request)
       
          return null;
     }
-    public function skinIndex (Request $request, $slug =null) 
+
+    private function getConfigSetting($companyId)
     {
 
+        $url ="https://api-soida.applamdep.com/api/settingBanner/getInfo";
+        $client = new Client();
+      
+
+        $res = $client->request('get', $url, [
+            'query' => [
+                'company_id'=> $companyId
+              ]
+        ]);
+
+        if($res->getStatusCode() ==200)
+        {
+            $checkresult = $res->getBody()->getContents();
+            $checkresult = json_decode($checkresult);
+            $result = $checkresult->data;
+             return $result;
+            
+         }
+      
+         return null;
+    }
+
+
+    public function skinIndex (Request $request, $slug =null) 
+    {
+        
+      
+        
+        if($slug == "" ||$slug ==null   )
+        {
+            return redirect('/soida');
+        }
+        
+        if($slug ==  "bsnho"  )
+        {
+            return redirect('/exomiyo');
+        }
+        
         $this->getTuVan($slug);
         
         $this->setHistoryId(null);
-        // $historyId =  session('historyId', null);
-    
-        // if($slug=="soida")
-        // {
-        //     return redirect()->to('/ngocdung');
-        // }
         $isCheck  = true;
         $isTurnOfFooter =  true;
 
@@ -629,18 +742,24 @@ public function getDataInfo (Request $request)
 
         $dataCompanyId =  $this->getCompanyId();
        
-       
         $this->getBeauty($slug);
-       
-
 
         $dataGame = $this->getGameActive($dataCompanyId);
 
       
 
         $gameMinisize = $this->getGameMinisize($dataCompanyId);
+  
+    
+
+     
+
       
-   
+
+
+        $conffigSetting = $this->getConfigSetting($dataCompanyId);
+
+    
         if( $dataGame != null)
         {
             $fromDate = Carbon::parse($dataGame->fromDate); 
@@ -672,6 +791,8 @@ public function getDataInfo (Request $request)
 
         $dataUserSession =  session('dataCompany', null);
 
+        $isLoginUser = false;
+
      
 
         if($dataUserSession)
@@ -682,6 +803,7 @@ public function getDataInfo (Request $request)
             $dataUserSession->data = $this->getDataById($dataUserId);
             session(['dataCompany' =>$dataUserSession]);
             $dataUserSession =  session('dataCompany', null);
+            $isLoginUser = true;
 
          
         }
@@ -695,21 +817,26 @@ public function getDataInfo (Request $request)
         {
        
         }
-
-        if($slug =="demo" || $slug =="demoweb" || $slug =="soida")
+        $showOrHide = $conffigSetting->showOrHide;
+        if( $slug =="bsnho" || $slug == "exomiyo" || $slug =="neomtech")
         {
-            return view("welcomeZalo", compact("slug","agent","isTurnOfFooter","gameJoinTo"));
+
+            return view("welcomeZalo2", compact("slug","agent", "showOrHide","isTurnOfFooter","gameJoinTo","isLoginUser"));
+        }
+        if($slug =="demo" || $slug =="demoai"   || $slug =="demoweb" || $slug =="soida" )
+        {
+         
+            return view("welcomeZalo", compact("slug","agent", "showOrHide","isTurnOfFooter","gameJoinTo"));
         }
         else  if($slug =="xemtuong")
         {
             $gameXemtuong = $this->getGameXemtuong($dataCompanyId);
-        
-            
-            return view("xemtuong", compact("slug","agent","isTurnOfFooter","gameJoinTo"));
+            return view("xemtuong", compact("slug", "showOrHide","agent","isTurnOfFooter","gameJoinTo"));
         }
         else 
         { 
-            return view("welcomeNormal", compact("slug","agent","isTurnOfFooter","gameJoinTo"));
+            
+            return view("welcomeNormal", compact("slug", "showOrHide","agent","isTurnOfFooter","gameJoinTo"));
         }
 
         
@@ -717,6 +844,7 @@ public function getDataInfo (Request $request)
         {
            
         }
+     
       
         return view("welcome", compact("slug","agent","isTurnOfFooter","gameJoinTo", "turnOnGame"));
     }
@@ -791,10 +919,45 @@ public function getDataInfo (Request $request)
         return view("bookingZalo", compact("slugBook","slug","agent","isTurnOfFooter","gameJoinTo", "turnOnGame"));
     }
     
+    public function CallFPTClient( $inputText) {
+                $url ="https://api.fpt.ai/hmi/tts/v5";
+                $client = new Client();
+                $res1 = $client->request('post', $url, [
+                    'headers' => [
+                        'Accept'       => 'application/json',
+                        'Content-Type' => 'application/json',   
+                        'api-key'=>'5PecxlB3UM9eeeWzCBAdST1LY0cBOXkf',
+                       
+                        'voice'=>'banmai'
+                    ],
+                    'body' => $inputText
+                ]);             
+                if($res1->getStatusCode() ==200)
+                { 
+                    $checkresult = $res1->getBody()->getContents();
+                    $data1= json_decode($checkresult);
+                    return $data1;
+                }
+                return "";
+    }
+
 
     public function result (Request $request, $slug =null) 
     {
         $data  =  session('dataResult', null);
+        // $textResultAI = $this->getTextGegemi($data,$slug);
+        // $textContent = $this->GetResultAI($textResultAI);
+        
+        // $plain_text = strip_tags($textContent);
+      
+        // $textReadSound = str_replace(["<br>", "<br/>", "<br />"], "\n", $plain_text); // Nếu xử lý trước strip_tags
+        // $textReadSound = str_replace("\\n", "\n", $textReadSound);
+         
+        // $resultSuond = $this->CallFPTClient($textReadSound);
+
+        // dd($resultSuond);
+        
+
         $dataGame = Session('dataGame', null);
          $this->getTuVan($slug);
          
@@ -831,9 +994,6 @@ public function getDataInfo (Request $request)
         $ageGame = 0;
         $ageGameReal=0;
         $gameType = 1;
-
-
-
         session(['gameJoinType1' =>false]);
         if( $dataGame != null)
         {
@@ -909,14 +1069,7 @@ public function getDataInfo (Request $request)
 
        
       
-        //  if($slug =="soida")
-        // {
-        //     $slug = null;
-        // }
-        // if($slug == null )
-        // {
-
-        // }
+      
         $companyId = $this->getCompanyId();
  
         $agent = new Agent();
@@ -926,21 +1079,48 @@ public function getDataInfo (Request $request)
          $gameJoinType1 =true;
      
          $gameMinisize = $this->getGameMinisize($companyId);
-       
+         $showOrHide = $gameMinisize->showOrHide;
         if($slug !="")
         {
           
         }
+
+        $dataConfigAI = $this->getAIConfig($slug);
+
+        if($slug =="demoai" )
+        {
+            // $this->getHistoryById();
+
+            $dataRecord   =  session('dataHistoryRecord', null);
+
+            if($dataRecord  != null)
+            {
+                $dataRecord = reset($dataRecord);
+            }
+
+           
+     
+
+            return view("resultAI", compact("slug", "dataConfigAI", "showOrHide", "dataRecord",
+             "ageGame","ageGameReal","gameType","gameJoinType1",
+             "contetnFail", "contentSuccess",  "agent","companyId", "displayGame", "rewardCheck", "turnOffGame","successGame","dataGame")); 
+        }
+        if($slug =="bsnho"  || $slug =="exomiyo" || $slug =="neomtech")
+        {
+            return view("resultZalo2", compact("slug", "dataConfigAI", "showOrHide",
+             "ageGame","ageGameReal","gameType","gameJoinType1",
+             "contetnFail", "contentSuccess",  "agent","companyId", "displayGame", "rewardCheck", "turnOffGame","successGame","dataGame")); 
+        }
         
         if($slug =="demo"  || $slug =="soida")
         {
-            return view("resultZalo", compact("slug", 
+            return view("resultZalo", compact("slug",   "dataConfigAI", "showOrHide",
              "ageGame","ageGameReal","gameType","gameJoinType1",
              "contetnFail", "contentSuccess",  "agent","companyId", "displayGame", "rewardCheck", "turnOffGame","successGame","dataGame")); 
         }
         else  if($slug =="demoweb" )
         {
-            return view("demo", compact("slug", 
+            return view("demo", compact("slug",   "dataConfigAI",
              "ageGame","ageGameReal","gameType","gameJoinType1",
              "contetnFail", "contentSuccess",  "agent","companyId", "displayGame", "rewardCheck", "turnOffGame","successGame","dataGame")); 
         }
@@ -948,14 +1128,14 @@ public function getDataInfo (Request $request)
         {
 
             $gameXemtuong = $this->getGameXemtuong($companyId);
-            return view("resultXemtuong", compact("slug", 
+            return view("resultXemtuong", compact("slug", "showOrHide",
              "ageGame","ageGameReal","gameType","gameJoinType1",
              "contetnFail", "contentSuccess",  "agent","companyId", "displayGame", "rewardCheck", "turnOffGame","successGame","dataGame")); 
         }
         else 
         {
             
-            return view("resultNormal", compact("slug", 
+            return view("resultNormal", compact("slug", "dataConfigAI", "showOrHide", 
               
             "ageGame","ageGameReal","gameType","gameJoinType1",
              "contetnFail", "contentSuccess",  "agent","companyId", "displayGame", "rewardCheck", "turnOffGame","successGame","dataGame")); 
@@ -1169,8 +1349,9 @@ public function getDataInfo (Request $request)
             {
                 
                     $result  = $checkresult->data;
+                   
                 
-                    return view("historyPageDetail3",compact("id","result", "slug","agent"));
+                    return view("historyPageDetail",compact("id","result", "resultAI","companyId", "slug","agent"));
 
             }
                 return  "Không có dữ liệu";
@@ -1219,8 +1400,10 @@ public function getDataInfo (Request $request)
                 
                     $result  = $checkresult->data;  
                     
-                
-                    return view("historyPageDetail",compact("id","result", "slug","agent"));
+                   $companyId= $result->Company_Id;
+                    $resultAI=  $result->resultAI;
+                    
+                    return view("historyPageDetail",compact("id","companyId","resultAI","result", "slug","agent"));
 
             }
                 return  "Không có dữ liệu";
@@ -1336,12 +1519,13 @@ public function getDataInfo (Request $request)
             ]);
             if($res->getStatusCode() ==200)
             { 
+
                 $checkresult = $res->getBody()->getContents();
                 $data = json_decode($checkresult);
 
             
                 $data = $data->data;
-         
+                
 
                 session(['dataResult' =>$data]);
                 session(['rewardCheck' =>true]);
@@ -1371,7 +1555,6 @@ public function getDataInfo (Request $request)
                 { 
                     $checkresult = $res1->getBody()->getContents();
                     $data1= json_decode($checkresult);
-                  
                     $data->data->sound = $data1;
                     session(['dataResult' =>$data]);
                     $this->HandleSkin();
@@ -1394,6 +1577,66 @@ public function getDataInfo (Request $request)
                   session(['webinfo' =>[]]);
             }
         }
+
+
+
+ public function getTextGegemi($dataResult, $slug)
+ {
+     $dataConfigAI = $this->getAIConfig($slug);
+    $resultText = "";
+    $generalResultData = $dataResult->data->facedata->generalResult->data;
+    foreach ($generalResultData as $item) {
+          $dataArray = $item->data;
+          foreach ($dataArray as $item2) {
+            $valueText = $item2->value;
+            $valueText= $valueText."";
+             $resultText = $resultText ."". $item2->key . ": " .  $valueText . $item2->valueVI .";";
+          }
+    }
+    $specialResultData = $dataResult->data->facedata->specialResult->data;
+    foreach ($specialResultData as $item) {
+          $dataArray = $item->data;
+          $title = $item->title->vi;
+          $description  = $item->descript->vi;
+          $resultText =  $resultText ."". $title . "" . $description. "; ";
+          foreach ($dataArray as $item2) {
+            $valueText = $item2->value;
+            $valueText= $valueText."";
+             $resultText = $resultText ."". $item2->key . ": " .  $valueText.";" . $item2->valueVI .";";
+          }
+    }
+
+    $resultText = $resultText."; output" . $dataConfigAI->question . " " . $dataConfigAI->noted;
+    return $resultText;
+ }
+
+
+ public function GetResultAI ($inputText) 
+    {
+           
+            $url ="http://45.76.161.30:3030/api/skin/analysisAI";
+            $client = new Client();
+            $headers = [];
+            $body = [
+               'question' =>$inputText
+            ];
+            // Send an asynchronous request.
+            $res = $client->requestAsync('post',$url , [
+               'json' =>$body
+               ]   
+            );
+
+            $result =  $res->wait();
+            If($result->getStatusCode() ==200)
+            {
+               $checkresult = $result->getBody()->getContents();
+                return $checkresult;
+            }
+            else 
+            {
+               return "";
+            }
+     }
 
      public function SaveSound($hintResult)
  {

@@ -488,7 +488,7 @@ margin: auto;
                   
                 }
                 .ConcludeItem  {
-                font-family: SFU Futura;
+                font-family: 'Roboto', sans-serif;
                 font-style: normal;
                 font-size: 14px;
                 line-height: 20px;
@@ -595,7 +595,7 @@ margin: auto;
                     .titletvtq {
                     margin-right: 5px;
                     font-weight: bold;
-                    font-family: SFU Futura;
+                    font-family: 'Roboto', sans-serif;
                     font-style: normal;
                     font-size: 14px;
                     line-height: 20px;
@@ -603,7 +603,7 @@ margin: auto;
                     }
                     .paragraphText{
 
-                        font-family: SFU Futura;
+                        font-family: 'Roboto', sans-serif;
                         font-style: normal;
                         font-size: 14px;
                         line-height: 20px;
@@ -1466,7 +1466,7 @@ margin: auto;
         setTimeout(() => {
     if(!isLogin)
     {
-        ToggleDisplayLogin('.status-modal-account',true,'Để xem lịch sử soi da online');
+        ToggleDisplayLogin('.status-modal-account',true,'Để xem kết quả soi da');
     }
      
    }, 4000);

@@ -21,7 +21,18 @@
 
     <script>
         var successGameTrue =  {!! json_encode($successGame) !!};
-      
+        var showOrHide =  {!! json_encode($showOrHide) !!};
+        
+        function getAllText()
+        {
+             var texthtmlcontent = "";
+             texthtmlcontent += document.getElementById("idGeneralResult").textContent;
+             texthtmlcontent += document.getElementById("danhsachketquatungphan").textContent;
+
+          
+        }
+
+        
     </script>
 
 @include('popup.subscrible')
@@ -55,6 +66,7 @@
     <link rel="stylesheet" href="/styles/global/index.css">
     <link rel="stylesheet" href="/styles/global/global_responsive.css">
     <link rel ="stylesheet" href ="/css/welcomNew.css">
+    <link rel ="stylesheet" href ="/css/resultai.css">
     <!-- ASSETS CDN SLICK -->
     <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
     <script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
@@ -89,10 +101,16 @@
 .toneColorSkin {
     font-family: SFU Futura !important;
     font-size: 14px;
+    padding-left: 10px;
+    padding-right: 10px;
 }
 .titleColor {
     margin-top:10px;
     margin-bottom: 10px;
+    color: rgb(70, 0, 221) !important;
+}
+.centerScreen {
+    text-align: center;
 }
 .toneColorSkin p {
     font-weight: bold !important;
@@ -105,6 +123,12 @@
     font-weight: bold !important;
     color: red;
 }
+.title2 {
+    
+    color: rgb(70, 0, 221) !important;
+    display:block;
+
+}
 .descrptionSkinColor{
     width: max-content;
     margin: auto;
@@ -113,16 +137,46 @@
 }
 .center-image {
     width: 100%;
-    height: 400px;
+    height: 240px;
     background-color: #CC5500;
     position: relative;
-    margin-top: 15px;
-    margin-bottom: 15px;
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
+
+@media only screen and (max-width: 700px) {
+    .center-image {
+    
+    height: 225px !important;
+ 
+}
+.skincolor {
+    margin :auto;
+
+    width: 96px;
+    height: 96px !important;
+    background-color: red;
    
+    border-radius: 50%;
+
+    transform:
+    perspective(75em)
+    rotateX(18deg);
+  box-shadow:
+    rgba(22, 31, 39, 0.42) 0px 60px 123px -25px,
+    rgba(19, 26, 32, 0.08) 0px 35px 75px -35px;
+  border-radius: 10px;
+  border: 1px solid;
+  border-color:
+    rgb(213, 220, 226)
+    rgb(213, 220, 226)
+    rgb(184, 194, 204);
+   
+   
+}
 .center-image  canvas{
-     width: 150px;
-     height: 150px;
+     width: 130px;
+     height: 130px;
 
      position: absolute;
     bottom: 0;
@@ -132,21 +186,42 @@
     margin: auto;
     max-width: 100%;
     max-height: 100%;
-     border-radius: 10px;
+     border-radius: 50%;
+   
+}
+}
+   
+.center-image  canvas{
+     width: 160px;
+     height: 160px;
+
+     position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    top: 0;
+    margin: auto;
+    max-width: 100%;
+    max-height: 100%;
+    border-radius: 50%;
    
 }
 .skincolor {
     margin :auto;
 
-    width: 112px;
-    height: 112px !important;
+    width: 80px;
+    height: 80px !important;
     background-color: red;
-    border-radius: 10px;
+    border-radius: 50%;
 }
 .skincolor:hover {
-    opacity: 0.8;
-    border: 1px solid  black;
+    opacity: 1;
+    border: 2px solid  black;
    
+}
+.activeSkin {
+    opacity: 1;
+    border: 2px solid  black;
 }
 .skincolor:active {
     opacity: 0.8;
@@ -169,7 +244,7 @@
 @endsection
 @section('contentpage')
 
-@includeIf("tuvanMinisize")
+
 
 @if ( $zaloLink != "" )
 <a  id ="zaloMessage" style ="display:none"  onclick="OpenAction('zalo')" ><div style="position:fixed;bottom:70px;right:30px; z-index:1000" class="messenger"><noscript>
@@ -322,42 +397,10 @@
            
         </div>
 
-        <span  id ="scoreAvg" class="score">  </span>  
 
-        {{-- <div class="profilearea">
+     
 
-        <div class="dropdown">
-            <button class="dropbtn" >
-                <span id ="profileName"> </span>
-                <img src="/assets/drop-down-arrow.png"> 
-            </button>
-            <div class="dropdown-content">
-            <a href="javascript:void(0)" onclick ="openAccountPage()">Thông tin tài khoản</a>
-            <a href="javascript:void(0)" onclick ="openHomePage()">Soi da online</a>
-            <a href="javascript:void(0)" onclick ="openHistoryPage()">Lịch sử soi da</a>
-            <a href="javascript:void(0)" onclick="logout()"  >Đăng xuất</a>
-            </div>
-        </div>
-    </div> --}}
-
-        {{-- <div class="areaLogin">
-
-
-        <ul class="right-menu">
-
-
-
-
-            <li class="right-text login">
-                <a id="myBtn" href="javascript:void(0)" data-toggle="modal" data-target="#loginModal">Đăng nhập/Đăng ký</a>
-            </li>
-            <li class="right-text login">
-                <a href=" /" href="javascript:void(0)" data-toggle="modal"
-                    data-target="#signUpModal">Đăng ký</a>
-            </li>
-        </ul>
-
-    </div> --}}
+      
 
         <style>
             .slick-slide img {
@@ -452,19 +495,19 @@
 
                 <div class="box-modal-suggestion">
                     <p class="text-center-box">
-                        Bây giờ hãy khám phá các <br>dấu hiệu lão hoá da của bạn một cách chi tiết
+                    Bây giờ hãy khám phá các <br>dấu hiệu lão hoá da của bạn một cách chi tiết
 
                     </p>
                 </div>
 
-                <div class="resultNote" id ="viewhistory">
+                <div class="resultNote" id ="viewhistory" style ="display:none">
 
-                    <p class="text-title-paragraph">
 
+                
                         Thông tin tổng quan
                     </p>
                 </div>
-                <div id="idGeneralResult">
+                <div id="idGeneralResult" style ="display:none">
 
                
                 </div>
@@ -473,26 +516,37 @@
 @if (Session()->has('dataCompany'))
 
 @else
-       @if($slug !="bibabo")
-        
-
-                <div class="resultNote">
-                        
-                    <p class="maincontent text-suggest-login" id="suggest-login-content">
-
-                <span style="font-weight:600;text-decoration: underline;cursor:pointer" onclick="ToggleDisplayClass('.status-modal-account',true)">
-                THEO DÕI 
-                </span>
-                <span style ="text-indent: 3px;">  LỊCH SỬ SOI DA</span>
-
-                <span style="font-weight: 600;"></span>  
-                </p>
-
-                </div>
-        @endif
+    
 @endif
 
- 
+ <div class ="toneColorSkin" style ="display:none">
+    <p class="titleColor centerScreen"> 
+    
+        <span  class ="title2" > Màu trang điểm, quần áo.. </span>
+        <span  class ="title2" > Phù hợp với tone màu da của bạn</span>
+    </p>
+    <div class ="center-image" id ="backgroudColor">
+         {{-- <img  id ="renderface" src ="/face.jpg"> --}}
+         <canvas id="canvasFace" width="160" height="160"></canvas>
+    </div>
+    <div class ="descrptionSkinColor" id ="descrptionSkinColorid">
+        <p>Nhận diện tone màu da </p>  
+        <p id ="SkinColorHueDeltaText">Màu sắc của da: <span>Ửng đỏ </span></p>  
+        <p id ="SkinColorLevelText" >Độ sáng màu: <span>Tự nhiện </span></p>   
+        <p id ="SkinLevel">Mức độ bản màu quốc tế: <span>Màu quốc tế 33 </span></p>   
+    
+    </div>
+    <p class="titleColor"> 
+        Màu phù hợp với tone màu da của bạn
+    </p>
+      
+    <div class ="navbarColor" id ="containerColor">
+          
+        </div>
+         
+   
+  
+</div> 
 
 
 
@@ -504,36 +558,29 @@
                     <div class="modalpopup">
 
                         <p class="maincontent">
-                            Chúng tôi muốn bạn có thể dễ dàng nắm bắt mọi thông tin và hiểu hơn trước khi vào sâu chi tiết
+                             Công nghệ AI: Chìa khóa cho làn da hoàn hảo.
                         </p>
                      
                     </div>
                 </div>
-                <div class="resultNote">
+                <div class="resultNote" id ="resultAI">
 
-                    <p class="text-title-paragraph">
-
-                        Các vấn đề cần lưu ý nhất trên làn da
-                    </p>
-
-                    <p class="description">
-                        Hiểu chi tiết hơn về làn da giúp bạn biết cách chăm sóc và có làn da tuyệt vời nhất
-                    </p>
+                 
                 </div>
                 
                 
-                <div class="result-list" id="danhsachketquatungphan">
+                <div class="result-list" id="danhsachketquatungphan" style ="display:none">
 
 
 
 
                 </div>
 
-                <div class="title-overview">
+                <div class="title-overview" style ="display:none">
                     <div class="hcn">
 
                     </div>
-                    <div class="title-larger" id ="ketluachitiet" >
+                    <div class="title-larger" id ="ketluachitiet" style ="display:none" >
                         Kết luận chi tiết
                     </div>
 
@@ -549,7 +596,7 @@
                   
                 }
                 .ConcludeItem  {
-                font-family: SFU Futura;
+                font-family: 'Roboto', sans-serif;
                 font-style: normal;
                 font-size: 14px;
                 line-height: 20px;
@@ -634,13 +681,13 @@
             </style>
 
 
-            <div id ="ConcludeItemArea" class ="blurdiv1" >
+            <div id ="ConcludeItemArea" class ="blurdiv1" style ="display:none" >
         
             </div>
         
 
 
-                <div class="title-overview blurdiv1" id ="tvtq_area"  >
+                <div class="title-overview blurdiv1" id ="tvtq_area" style ="display:none"  >
                     <div class="hcn">
 
                     </div>
@@ -653,7 +700,7 @@
                     .titletvtq {
                     margin-right: 5px;
                     font-weight: bold;
-                    font-family: SFU Futura;
+                    font-family: 'Roboto', sans-serif;
                     font-style: normal;
                     font-size: 14px;
                     line-height: 20px;
@@ -661,7 +708,7 @@
                     }
                     .paragraphText{
 
-                        font-family: SFU Futura;
+                        font-family: 'Roboto', sans-serif;
                         font-style: normal;
                         font-size: 14px;
                         line-height: 20px;
@@ -675,6 +722,7 @@
                 </style>
                 <div id="idtuvantongquan" class="blurdiv1"  style="
                 text-align: justify;
+                display:none;
            
                 padding: 10px;
             ">
@@ -710,38 +758,13 @@
             </div>
             <div class="recomend-title-box" id ="hideProductList"> 
 
-<div class="centerText"> 
-<p>GỢI Ý TỪ CHUYÊN GIA</p>
-<img src="/images/start-direct.png"> 
-
-</div>
-<div  class="title-strong"> 
-<p> CÁC SẢN PHẨM CHUYÊN GIA ĐỀ XUẤT RIÊNG CHO BẠN </p>
-</div>
-</div>
-
-<div id = "list-product">
-
 
 
 </div>
+
 
             @if (1==1)
-            <div class="content-plugin" id ="buttonRecomand">
-                
-               
-                <div class="box-class-center" style="height:77px">
-                    <div class=" nav-button  spaceAjustVer btnrecomend">
-
-                        <a href="javascript:void(0)" onclick="openRecomendProduct()" style="width: 234px !important">
-                            <img src="/images/arrow.png"> GỢI Ý CHĂM SÓC TỪ CHUYÊN GIA </a>
-
-                    </div>
-                </div>
-
-
-
-            </div>
+           
 
             @endif
 
@@ -753,10 +776,12 @@
 
 
         <script>
-            function changeBackgroud(color)
+            function changeBackgroud(color, element)
             {
               
-                    
+            
+
+                $("#containerColor").removeClass("activeSkin");
                 var backgroudColor = document.getElementById("backgroudColor");
 
                 backgroudColor.style.background = color;
@@ -1511,7 +1536,30 @@
             img.onload = function () {
             const c = document.getElementById('canvasFace');
             const ctx = c.getContext('2d');
-            ctx.drawImage(img,rectangleDraw.left,rectangleDraw.top ,rectangleDraw.width,rectangleDraw.height,0,0,150,150);
+            
+            var widthDraw =  rectangleDraw.width +rectangleDraw.width/5*2 ;
+            
+            if(widthDraw >300)
+            {
+                widthDraw = 299;   
+            }
+
+            var leftDraw = rectangleDraw.left- rectangleDraw.width/5;
+            if(leftDraw <0)
+            {
+                leftDraw = 1;
+            }
+            var heightDrawTop = rectangleDraw.top- rectangleDraw.height/2 ; 
+            if(heightDrawTop <0)
+            {
+                heightDrawTop =1;
+            }
+            var heightFace = rectangleDraw.height*1.7;
+            if(heightFace >=400)
+            {
+                heightFace = 399;
+            }
+            ctx.drawImage(img, rectangleDraw.left ,rectangleDraw.top ,rectangleDraw.width,rectangleDraw.height,0,0,160,160);
             }
 
         }
@@ -1605,7 +1653,7 @@
                 if(i  > 0)
                 {
                     htmlSkin += ` <div class ="containerSkin">
-                <div class ="skincolor" style ="background-color:`+ itemColor+` !important " onclick="changeBackgroud('`+itemColor+`')" > 
+                <div class ="skincolor" style ="background-color:`+ itemColor+` !important " onclick="changeBackgroud('`+itemColor+`', this)" > 
 
                 </div>
             </div> `;
@@ -1697,11 +1745,8 @@
             } else {
                 objectReponse = JSON.parse(resultCheck);
             }
-
             resultModule.startup();
-
-            reDrawInfomation();
-
+            getTextInfo();
             if(isLogin)
             {
                 drawProduction(objectReponse.data.facedata.hintResult);
@@ -1715,7 +1760,55 @@
             {
 
             }
-            
+            readInfoToneSkin(objectReponse.data.facedata.dataReponse);
+            drawImageTone(objectReponse.data.facedata.image_info.url,objectReponse.data.rectangle );
+            setTimeout(() => {
+                $('.navbarColor').slick({
+                slidesToShow: 4,
+                slidesToScroll: 1,
+                centerMode: true,
+                centerPadding: '40px',
+                autoplay: true,
+                autoplaySpeed: 5000,
+                arrows : false,
+                responsive: [
+    {
+      breakpoint: 1024,
+      settings: {
+        slidesToShow: 4,
+        slidesToScroll: 1,
+        centerMode: true,
+                centerPadding: '40px',
+        infinite: true,
+        dots: true
+      }
+    },
+    {
+      breakpoint: 600,
+      settings: {
+        slidesToShow: 4,
+        centerMode: true,
+                centerPadding: '30px',
+        slidesToScroll: 1
+      }
+    },
+    {
+      breakpoint: 480,
+      settings: {
+        slidesToShow: 3,
+        centerMode: true,
+                centerPadding: '40px',
+        slidesToScroll: 1
+      }
+    }
+    // You can unslick at a given breakpoint now by adding:
+    // settings: "unslick"
+    // instead of a settings object
+  ]
+          
+
+              });
+            }, 2000);
 
         
                 
@@ -1726,12 +1819,6 @@
 
 <script>
    var refreshIntervalId;
-
-
-    // setTimeout(() => {
-    //     refreshIntervalId = setInterval(myTimer, 1000);
-    // }, 4000);
-
 
 
 let isPlaying = false;
@@ -1758,11 +1845,6 @@ let isPlaying = false;
 });
 
 
-setTimeout(() => {  
-    document.getElementById("fromResiger").style.display ="block";
-   
-}, 5000);
-
 
 
 function myTimer() {
@@ -1775,7 +1857,7 @@ function myTimer() {
             { 
                 setTimeout(() => {
                       
-                         readTextConclude();
+                        //  readTextConclude();
                         clearInterval(refreshIntervalId);  
                 }, 2000);
                 
@@ -1814,34 +1896,13 @@ function openFormRegister2() {
     
 }
 
-function DowloadBook() 
-{   
-    return;
-    var item =  sessionStorage.linkhref;
 
-    
-
-    if(item != null &&  item != '')
-    {
-            var link = document.createElement("a");
-            link.setAttribute('download', name);
-            link.href = item;
-            document.body.appendChild(link);
-            link.click();
-            link.remove();
-            sessionStorage.removeItem("linkhref");
-            
-
-    }
-
-
-}
 
 const timeoutDisplayMessage = setTimeout(ShowZalo, 5000);
 
 function ShowZalo() {
-    return;
-  document.getElementById("socialBLock").style.display = "block";
+ 
+  document.getElementById("socialBLock").style.display = "none";
 
   
 }
@@ -1851,7 +1912,7 @@ function OpenAction ( connectionType)
 {   
 
     addContionType(connectionType);
-  setTimeout(() => {
+   setTimeout(() => {
     if(zaloLink =="")
     {
         zaloLink =  "http://zalo.me/769304971095062899?src=qr";
@@ -1918,7 +1979,9 @@ function openRegister ( connectionType ="minisize")
 </div>
 
 
-<div class ="imagebackground" id ="fromResiger" >
+<div class ="imagebackground" id ="fromResiger" style="
+    display: none;
+" >
     <a  onclick ="openRegister()" >
         <img src ="{{$dataMinisize->minisize}}">
     </a>
@@ -2045,5 +2108,6 @@ background-color: transparent;
  color: #ffffff;
 }
 </style>
+
 
 
