@@ -24,8 +24,8 @@
     else 
     {
         $bannerPage =   new \stdClass();
-        $bannerPage->imageBannerDesktop= "https://api-soida.applamdep.com/image_brand/applamdep1320 (1).png";
-        $bannerPage->imageBannerMobile  = "https://api-soida.applamdep.com/image_brand/applamdep1320 (1).png";
+        $bannerPage->imageBannerDesktop= "{{ rtrim(config('app.api_url'), '/') }}/image_brand/applamdep1320 (1).png";
+        $bannerPage->imageBannerMobile  = "{{ rtrim(config('app.api_url'), '/') }}/image_brand/applamdep1320 (1).png";
         
     }
 

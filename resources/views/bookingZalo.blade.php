@@ -805,7 +805,7 @@
                     };
                     $.ajax({
                         type: "POST",
-                        url: "https://api-soida.applamdep.com/itemSdk/get_product_result",
+                        url: "{{ rtrim(config('app.api_url'), '/') }}/itemSdk/get_product_result",
                         data: JSON.stringify(bodyRequest),
                         contentType: "application/json",
                         dataType: "json",
@@ -842,7 +842,7 @@
                             var itemProduct = listProduct[i];
 
                             if (itemProduct.image_link.length > 0) {
-                                imagelink = "https://api-soida.applamdep.com/public/image_plugin/" + itemProduct
+                                imagelink = "{{ rtrim(config('app.api_url'), '/') }}/public/image_plugin/" + itemProduct
                                     .image_link;
                             } else {
                                 imagelink = itemProduct.image;
@@ -1334,7 +1334,7 @@
             $("#btnrewardLoading").show();
             $.ajax({
                 type: "PUT",
-                url: "https://api-soida.applamdep.com/api/add-customer-request",
+                url: "{{ rtrim(config('app.api_url'), '/') }}/api/add-customer-request",
                 data: JSON.stringify({
                     UserName: "TIKITECH",
                     Phone: $("#mobilePhone").val(),
@@ -1357,7 +1357,7 @@
             $("#btnrewardLoading").show();
             $.ajax({
                 type: "PUT",
-                url: "https://api-soida.applamdep.com/api/add-customer-request",
+                url: "{{ rtrim(config('app.api_url'), '/') }}/api/add-customer-request",
                 data: JSON.stringify({
                     UserName: "TIKITECH",
                     Phone: $("#mobilePhone").val(),
@@ -1597,7 +1597,7 @@ function getBySlug(sluginput)
    
     $.ajax({
                 type: "GET",
-                url: "https://api-soida.applamdep.com/api/book/getbySlug?slug=" + sluginput,
+                url: "{{ rtrim(config('app.api_url'), '/') }}/api/book/getbySlug?slug=" + sluginput,
                 
                 contentType: "application/json",
                 dataType: "json",
@@ -1626,7 +1626,7 @@ function getAllBook(type =0, turnon = true)
 {
     $.ajax({
                 type: "GET",
-                url: "https://api-soida.applamdep.com/api/book/fe/getAll",
+                url: "{{ rtrim(config('app.api_url'), '/') }}/api/book/fe/getAll",
                 data:{
                  
                     Type: type

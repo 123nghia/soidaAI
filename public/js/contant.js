@@ -1,3 +1,31 @@
+function getAppConfig() {
+  if (window.__APP_CONFIG__) {
+    return window.__APP_CONFIG__;
+  }
+
+  try {
+    var request = new XMLHttpRequest();
+    request.open("GET", "/env-config", false);
+    request.send(null);
+
+    if (request.status >= 200 && request.status < 300) {
+      window.__APP_CONFIG__ = JSON.parse(request.responseText);
+      return window.__APP_CONFIG__;
+    }
+  } catch (error) {
+    console.error("Failed to load env-config", error);
+  }
+
+  return {
+    app_url: window.location.origin,
+    api_url: window.location.origin,
+  };
+}
+
+var appConfig = getAppConfig();
+var APP_BASE_URL = appConfig.app_url || window.location.origin;
+var API_BASE_URL = appConfig.api_url || APP_BASE_URL;
+
 var slug = window.location.pathname.split("/")[1];
 if (slug !== "") {
   slug += "/";
@@ -7,7 +35,7 @@ if(slug === 'cong-tac-vien/' || slug === 'chinh-sach-va-bao-mat/' || slug === 'd
 }
 var  api =  {
 
-    baser_url:  "https://api-soida.applamdep.com",
+    baser_url:  API_BASE_URL,
     api_addUrl: "api/add-end-user",
     api_loginUser: "api/login-end-user",
     api_getInfo: "api/get-end-user-byId",
@@ -24,7 +52,7 @@ var  api =  {
     api_getHistoryById: `${slug}api/get-detail-history-skin`,
     api_CheckUrl: `${slug}api/check-access-slug`,
     serve: {
-        baser_urlServer: "https://applamdep.com",
+        baser_urlServer: APP_BASE_URL,
         get_banner: `api/evoucher/banner/getAll`,
         api_logoutUser: `${slug}dang-xuat-he-thong`,
         api_registerUser: `${slug}dang-ky-nguoi-dung`,

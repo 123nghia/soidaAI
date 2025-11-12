@@ -1,3 +1,47 @@
+function ensureAppConfig() {
+        if (window.APP_BASE_URL && window.API_BASE_URL) {
+                return {
+                        app_url: window.APP_BASE_URL,
+                        api_url: window.API_BASE_URL,
+                };
+        }
+
+        var resolved = {
+                app_url: window.location.origin,
+                api_url: window.location.origin,
+        };
+
+        try {
+                var request = new XMLHttpRequest();
+                request.open("GET", "/env-config", false);
+                request.send(null);
+
+                if (request.status >= 200 && request.status < 300) {
+                        var response = JSON.parse(request.responseText);
+                        if (response.app_url) {
+                                resolved.app_url = response.app_url;
+                        }
+                        if (response.api_url) {
+                                resolved.api_url = response.api_url;
+                        } else if (response.app_url) {
+                                resolved.api_url = response.app_url;
+                        }
+                }
+        } catch (error) {
+                console.error("Failed to load env-config", error);
+        }
+
+        window.APP_BASE_URL = resolved.app_url;
+        window.API_BASE_URL = resolved.api_url || resolved.app_url;
+        return {
+                app_url: window.APP_BASE_URL,
+                api_url: window.API_BASE_URL,
+        };
+}
+
+var appConfig = ensureAppConfig();
+var APP_BASE_URL = appConfig.app_url;
+var API_BASE_URL = appConfig.api_url;
 
 function getTextInfo() {
 
@@ -36,7 +80,7 @@ function getTextInfo() {
           data: {
               "question": textInfo
           },
-          url: "https://applamdep.com/getResultAI",
+          url: APP_BASE_URL + "/getResultAI",
           success: function(data) {
                 Swal.close();
            
@@ -219,7 +263,7 @@ let dataFace = objectReponse.data.faceAttitude;
 let indexDraw =0;
 ketLuanTungPhan.data.forEach((ketLuanTungPhanItem) => {
 indexDraw ++;
-let dataDrawFace  = " https://applamdep.com/images/image1.png";
+let dataDrawFace  = APP_BASE_URL + "/images/image1.png";
 
 if(dataFace)
 {
@@ -489,7 +533,7 @@ var bodyRequest = {
 };
 $.ajax({
  type: "POST",
- url: "https://api-soida.applamdep.com/itemSdk/get_product_result",
+ url: API_BASE_URL + "/itemSdk/get_product_result",
  data: JSON.stringify(bodyRequest),
  contentType: "application/json",
  dataType: "json",
@@ -526,7 +570,7 @@ var bodyRequest = {
 };
 $.ajax({
 type: "POST",
-url: "https://api-soida.applamdep.com/api/paramenterRecomed/getAllCocludeOverView",
+url: API_BASE_URL + "/api/paramenterRecomed/getAllCocludeOverView",
 data: JSON.stringify(bodyRequest),
 contentType: "application/json",
 dataType: "json",
@@ -609,7 +653,7 @@ var bodyRequest = {
 };
 $.ajax({
 type: "POST",
-url: "https://api-soida.applamdep.com/api/paramenterRecomed/getAllCocludeDetail",
+url: API_BASE_URL + "/api/paramenterRecomed/getAllCocludeDetail",
 data: JSON.stringify(bodyRequest),
 contentType: "application/json",
 dataType: "json",
@@ -1233,7 +1277,7 @@ var listDataProducts = dataProducts.list_product;
 
 listDataProducts.forEach(element => {
  
-var pathImage = 'https://api-soida.applamdep.com/public/image_plugin/' +'' +element.image_link +'';
+var pathImage = API_BASE_URL + "/public/image_plugin/" + element.image_link;
 
 var xhr = new XMLHttpRequest();
 xhr.open('HEAD', pathImage, false);
@@ -1341,11 +1385,11 @@ htmlTemplate+='  <div class="dataProduct">';
       dataProducts.list_product.forEach(itemProduct =>  {
 
          htmlTemplate += '<div class="product-item">\
-                         <div> \
-                         <img\
-                         src="https://api-soida.applamdep.com/public/image_plugin/toner-Dashu-0x0.jpg"\
-                         alt="">\
-                         </div>\
+                        <div> \
+                        <img\
+                        src="'+(API_BASE_URL + "/public/image_plugin/toner-Dashu-0x0.jpg")+'"\
+                        alt="">\
+                        </div>\
                          <div class="product-title">\
                          <div> Nước Hoa Hồng Cho Nam Dashu Tăng Độ Ẩm Cho Da, Dưỡng Trắng Da 153ml\
                          </div>\

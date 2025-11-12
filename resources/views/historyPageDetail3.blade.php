@@ -228,7 +228,7 @@
                 <a id="myBtn" href="javascript:void(0)" data-toggle="modal" data-target="#loginModal">Đăng nhập/Đăng ký</a>
             </li>
             <li class="right-text login">
-                <a href=" https://applamdep.com/" href="javascript:void(0)" data-toggle="modal"
+                <a href=" {{ rtrim(config('app.url'), '/') }}/" href="javascript:void(0)" data-toggle="modal"
                     data-target="#signUpModal">Đăng ký</a>
             </li>
         </ul>
@@ -1919,8 +1919,8 @@ let dataFace = objectReponse.faceAttitude;
 let indexDraw =0;
 ketLuanTungPhan.data.forEach((ketLuanTungPhanItem) => {
 indexDraw ++;
-let dataDrawFace  = " https://applamdep.com/images/image1.png";
-https://applamdep.com/images/image1.png
+let dataDrawFace  = " {{ rtrim(config('app.url'), '/') }}/images/image1.png";
+{{ rtrim(config('app.url'), '/') }}/images/image1.png
 if(dataFace)
 {
 switch(indexDraw) {
@@ -2182,7 +2182,7 @@ var bodyRequest = {
 };
 $.ajax({
 type: "POST",
-url: "https://api-soida.applamdep.com/itemSdk/get_product_result",
+url: "{{ rtrim(config('app.api_url'), '/') }}/itemSdk/get_product_result",
 data: JSON.stringify(bodyRequest),
 contentType: "application/json",
 dataType: "json",
@@ -2219,7 +2219,7 @@ var bodyRequest = {
 };
 $.ajax({
 type: "POST",
-url: "https://api-soida.applamdep.com/api/paramenterRecomed/getAllCocludeOverView",
+url: "{{ rtrim(config('app.api_url'), '/') }}/api/paramenterRecomed/getAllCocludeOverView",
 data: JSON.stringify(bodyRequest),
 contentType: "application/json",
 dataType: "json",
@@ -2300,7 +2300,7 @@ var bodyRequest = {
 };
 $.ajax({
 type: "POST",
-url: "https://api-soida.applamdep.com/api/paramenterRecomed/getAllCocludeDetail",
+url: "{{ rtrim(config('app.api_url'), '/') }}/api/paramenterRecomed/getAllCocludeDetail",
 data: JSON.stringify(bodyRequest),
 contentType: "application/json",
 dataType: "json",
@@ -2776,7 +2776,7 @@ var htmlItem = '\
 
 listDataProducts.forEach(element => {
 
-var pathImage = 'https://api-soida.applamdep.com/public/image_plugin/' +'' +element.image_link +'';
+var pathImage = '{{ rtrim(config('app.api_url'), '/') }}/public/image_plugin/' +'' +element.image_link +'';
 
 var xhr = new XMLHttpRequest();
 xhr.open('HEAD', pathImage, false);
@@ -2886,7 +2886,7 @@ htmlTemplate+='  <div class="dataProduct">';
         htmlTemplate += '<div class="product-item">\
                         <div> \
                         <img\
-                        src="https://api-soida.applamdep.com/public/image_plugin/toner-Dashu-0x0.jpg"\
+                        src="{{ rtrim(config('app.api_url'), '/') }}/public/image_plugin/toner-Dashu-0x0.jpg"\
                         alt="">\
                         </div>\
                         <div class="product-title">\

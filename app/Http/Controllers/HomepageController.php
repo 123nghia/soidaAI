@@ -1089,25 +1089,13 @@ public function getDataInfo (Request $request)
 
         if($slug =="demoai" )
         {
-            // $this->getHistoryById();
-
             $dataRecord   =  session('dataHistoryRecord', null);
 
             if($dataRecord  != null)
             {
                 $dataRecord = reset($dataRecord);
             }
-
-           
-     
-
             return view("resultAI", compact("slug", "dataConfigAI", "showOrHide", "dataRecord",
-             "ageGame","ageGameReal","gameType","gameJoinType1",
-             "contetnFail", "contentSuccess",  "agent","companyId", "displayGame", "rewardCheck", "turnOffGame","successGame","dataGame")); 
-        }
-        if($slug =="bsnho"  || $slug =="exomiyo" || $slug =="neomtech")
-        {
-            return view("resultZalo2", compact("slug", "dataConfigAI", "showOrHide",
              "ageGame","ageGameReal","gameType","gameJoinType1",
              "contetnFail", "contentSuccess",  "agent","companyId", "displayGame", "rewardCheck", "turnOffGame","successGame","dataGame")); 
         }
@@ -1124,14 +1112,7 @@ public function getDataInfo (Request $request)
              "ageGame","ageGameReal","gameType","gameJoinType1",
              "contetnFail", "contentSuccess",  "agent","companyId", "displayGame", "rewardCheck", "turnOffGame","successGame","dataGame")); 
         }
-       else if($slug =="xemtuong")
-        {
-
-            $gameXemtuong = $this->getGameXemtuong($companyId);
-            return view("resultXemtuong", compact("slug", "showOrHide",
-             "ageGame","ageGameReal","gameType","gameJoinType1",
-             "contetnFail", "contentSuccess",  "agent","companyId", "displayGame", "rewardCheck", "turnOffGame","successGame","dataGame")); 
-        }
+      
         else 
         {
             
@@ -1146,150 +1127,7 @@ public function getDataInfo (Request $request)
         return view("result", compact("slug", "contetnFail", "contentSuccess",  "agent","companyId", "displayGame", "rewardCheck", "turnOffGame","successGame","dataGame"));
     }
 
-    public function resultBook (Request $request, $book =null) 
-    {
-        $slug = "book";
-        $data  =  session('dataResult', null);
-        $dataGame = Session('dataGame', null);
-        $contetnFail ="Chúc Quý khách may mắn lần sau NHƯNG  bạn vẫn được nhận  Ưu Đãi từ Nhãn Hàng chính hãng tài trợ";
-        $contentSuccess = "CHÚC MỪNG BẠN ĐÃ TRÚNG THƯỞNG";
-      
-        $dataUserSession =  session('dataCompany', null);
-
-        $displayGame = true;
-        if($dataUserSession)
-        {
-            $displayGame = false;
-        }
-
-        $dataUserSession =  session('dataCompany', null);
-
-     
-
-        if($dataUserSession)
-        {
-            $dataUserId=  $dataUserSession->data->_id;
-         
-           
-            $dataUserSession->data = $this->getDataById($dataUserId);
-            session(['dataCompany' =>$dataUserSession]);
-            $dataUserSession =  session('dataCompany', null);
-
-         
-        }
-        
-        $turnOffGame = false;
-        $successGame = false;
-        $ageGame = 0;
-        $ageGameReal=0;
-        $gameType = 1;
-
-
-
-        session(['gameJoinType1' =>false]);
-        if( $dataGame != null)
-        {
-               
-                $contetnFail = $dataGame->popupfail;
-            
-                $contentSuccess = $dataGame->pupupSuccess;
-                $currentTime = Carbon::now()->addHour(7);
-                $converTextString = $currentTime->format('H:i');
-                $fromDate = Carbon::parse($dataGame->fromDate); 
-                $todate = Carbon::parse(  $dataGame->todate); 
-                $timefrom = $dataGame->fromtime;
-                $timeto = $dataGame->totime;
-                if( $currentTime >= $fromDate && $currentTime <= $todate  )
-                {
-                    session(['gameJoinType1' =>True]);
-                    $skin =  $data->data->facedata->generalResult->data[0]->data[0]->value;
-
-                    session(['ageGame' =>$skin]);
-                    session(['ageGameReal' =>$skin]);
-                    if($timefrom<= $converTextString && $converTextString <=$timeto)
-                    {
-                       
-                        if($dataGame->typeGame =="1")
-                        {
-                            session(['ageGame' =>$skin]);
-                            session(['ageGameReal' =>$skin]);
-                           
-                            if( $skin*1  == $dataGame->skinNumber*1)
-                            {
-                                $successGame = true;
-                            
-                                
-                          
-                               
-                                session(['gameType' =>1]);
-                            }
-                            else 
-                            {
-                                $successGame = false;
-                            }
-                        }
-                        
-                      
-                       
-                    }
-                    else 
-                    {
-                       
-
-                        if( $skin*1  == $dataGame->skinNumber*1)
-                        {
-                            $successGame = true;
-                          
-                      
-                            session(['ageGame' =>($skin*1 + 1)]);
-                            session(['ageGameReal' =>$skin]);
-                            session(['gameType' =>1]);
-                        }
-                        else 
-                        {
-                            $successGame = false;
-                        }
-
-                        $successGame = false;
-                    }
-                }
-         }
-
-         
-
-         session(['successGame' =>$successGame]);
-
-       
-      
-        //  if($slug =="soida")
-        // {
-        //     $slug = null;
-        // }
-        // if($slug == null )
-        // {
-
-        // }
-        $companyId = $this->getCompanyId();
- 
-        $agent = new Agent();
-        $turnOffGame = false;
-      
-        $rewardCheck  =  session('rewardCheck', false);
-         $gameJoinType1 =true;
-       
-        if($slug !="")
-        {
-              return view("resultZaloBook", compact("slug", 
-              
-             "ageGame","ageGameReal","gameType","gameJoinType1",
-              "contetnFail", "contentSuccess",  "agent","companyId", "displayGame", "rewardCheck", "turnOffGame","successGame","dataGame")); 
-        }
-
-
     
-
-        return view("resultBook", compact("slug", "contetnFail", "contentSuccess",  "agent","companyId", "displayGame", "rewardCheck", "turnOffGame","successGame","dataGame"));
-    }
 
     public function recomendProduct (Request $request, $slug =null) 
     {
