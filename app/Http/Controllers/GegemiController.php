@@ -41,7 +41,7 @@ class GegemiController extends Controller
                     ]);
                 } catch (RequestException $e) {
                     Log::warning("⚠️ Không thể cập nhật kết quả AI: " . $e->getMessage());
-                    // Không dừng xử lý người dùng nếu chỉ lỗi update
+                   
                 }
 
                 return response($aiResult, 200);
