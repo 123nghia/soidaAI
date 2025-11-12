@@ -44,6 +44,8 @@ var APP_BASE_URL = appConfig.app_url;
 var API_BASE_URL = appConfig.api_url;
 
 function drawResultAI() {
+        console.log(sessionStorage);
+        debugger;
 
         var dataRegion =  JSON.parse( sessionStorage.dataCheckRegion);
         var outputCity =  "; Kết quả được thực hiện soi da ở  "  + dataRegion.city + "; ";

@@ -680,14 +680,8 @@
                             if (secondResponse.is_success) {
                                 openPoupupLoading(false);
                                 openPopupSuccess();
-
-                                
-
-                                 
                                 sessionStorage.setItem("_t", JSON.stringify(secondResponse.data));
-                             
                                 saveHistory(true, secondResponse.data.data);
-                                
                             } else {
 
                                 $(".nav-menu").show();

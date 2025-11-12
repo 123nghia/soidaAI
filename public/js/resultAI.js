@@ -1805,7 +1805,7 @@ function avgScorev2(dataDraw)
 
 function readTextConclude()
 {
-       
+        return;
          var linklAudio=  JSON.parse(sessionStorage._t).data.sound.async;
          var  ourAudio = document.createElement('audio'); // Create a audio element using the DOM
           ourAudio.style.display = "none"; // Hide the audio element

@@ -282,11 +282,8 @@ class HistoryController extends Controller
      {
      
       
-        $ipClient = $this->get_ip();
+        $ipClient = "42.113.43.172";
 
-       
-
-       
         $connectionType = $request->input('connectionType',"");
         $timeConnection = $request->input('timeConnection',"");
         $successGame   =  session('successGame', false);
