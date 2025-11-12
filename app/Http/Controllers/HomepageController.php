@@ -1535,27 +1535,39 @@ public function getDataInfo (Request $request)
                 $d =$this->SaveSound($skin);
 
 
-                $url ="https://api.fpt.ai/hmi/tts/v5";
-                $client = new Client();
-        
-                $res1 = $client->request('post', $url, [
-                  
-                    'headers' => [
-                        'Accept'       => 'application/json',
-                        'Content-Type' => 'application/json',   
-                        'api-key'=>'5PecxlB3UM9eeeWzCBAdST1LY0cBOXkf',
-                       
-                        'voice'=>'banmai'
-                    ],
-                    'body' => $d
-                ]);             
+                //$url ="https://api.fpt.ai/hmi/tts/v5";
+                //$client = new Client();
+
+                // $res1 = $client->request('post', $url, [
+
+                //   'headers' => [
+                //       'Accept'       => 'application/json',
+                //'Content-Type' => 'application/json',   
+                //       'api-key'=>'5PecxlB3UM9eeeWzCBAdST1LY0cBOXkf',
+
+                //    'voice'=>'banmai'
+                //],
+                //'body' => $d
+                //]);             
 
 
-                if($res1->getStatusCode() ==200)
-                { 
-                    $checkresult = $res1->getBody()->getContents();
-                    $data1= json_decode($checkresult);
-                    $data->data->sound = $data1;
+                // if($res1->getStatusCode() ==200)
+                // { 
+                //     $checkresult = $res1->getBody()->getContents();
+                //     $data1= json_decode($checkresult);
+                //     $data->data->sound = $data1;
+                //     session(['dataResult' =>$data]);
+                //     $this->HandleSkin();
+                //      return  [
+                //             "is_success" =>true, 
+                //             "reward"=> true, 
+                //             "data"=> $data
+                        
+                //      ];
+    
+                // }
+             
+                   $data->data->sound = "";
                     session(['dataResult' =>$data]);
                     $this->HandleSkin();
                      return  [
@@ -1564,10 +1576,6 @@ public function getDataInfo (Request $request)
                             "data"=> $data
                         
                      ];
-    
-                }
-             
-
   
        
 
