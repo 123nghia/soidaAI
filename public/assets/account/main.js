@@ -72,8 +72,24 @@ function submitRequest() {
     txtfullName.val($("#txtUserName").val());
 
     var form = $("#formrequest");
+    // Get API URL from config or use default
+    var apiUrl = window.API_BASE_URL || (function() {
+        try {
+            var request = new XMLHttpRequest();
+            request.open("GET", "/env-config", false);
+            request.send(null);
+            if (request.status >= 200 && request.status < 300) {
+                var config = JSON.parse(request.responseText);
+                return config.api_url || "https://api-soida.applamdep.com";
+            }
+        } catch (e) {
+            console.error("Failed to load env-config", e);
+        }
+        return "https://api-soida.applamdep.com";
+    })();
+    
     $.ajax({
-        url: "https://api-soida.applamdep.com/api/plugin-add-company-auto-wa",
+        url: apiUrl + "/api/plugin-add-company-auto-wa",
         type: "post",
         data: form.serialize(),
         success: function(response) {

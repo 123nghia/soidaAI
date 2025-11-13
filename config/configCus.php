@@ -4,7 +4,7 @@ return [
 
     'urlSystem' => [
 
-        'checkAcessSlug' =>"https://api-soida.applamdep.com/api/check-access-slug",
+        'checkAcessSlug' => env('API_URL', 'https://api-soida.applamdep.com')."/api/check-access-slug",
        
 
     ],

@@ -97,7 +97,7 @@ class Controller extends BaseController
       {
          $slugInput= "soida";
       }
-      $urlGetConfig = "https://api-soida.applamdep.com/api/config/getInfoWeb";
+      $urlGetConfig = API_BaseUrl."/api/config/getInfoWeb";
       $client = new Client();
       $res = $client->request('post', $urlGetConfig, [
          'json' => [

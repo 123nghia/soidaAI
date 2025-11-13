@@ -15,8 +15,10 @@ class GegemiController extends Controller
         $historyIdUpdate = $request->input("historyId");
         $question = $request->input("question");
 
-        $aiApiUrl = "http://45.76.161.30:3030/api/skin/analysisAI";
-        $updateHistoryUrl = "https://api-ai.exomiyo.com/api/update_resultAI";
+        $aiApiBaseUrl = env('AI_API_URL', 'http://45.76.161.30:3030');
+        $updateAiApiUrl = env('UPDATE_AI_API_URL', 'https://api-ai.exomiyo.com');
+        $aiApiUrl = $aiApiBaseUrl."/api/skin/analysisAI";
+        $updateHistoryUrl = $updateAiApiUrl."/api/update_resultAI";
 
         $client = new Client([
             'timeout' => 30, // ⏱ Timeout cho mỗi request

@@ -70,10 +70,10 @@ class HistoryController extends Controller
     {
 
      
-        $checkacssSlugUrl ="https://api-soida.applamdep.com/api/check-access-slug";
+        $checkacssSlugUrl = API_BaseUrl."/api/check-access-slug";
         $client = new Client();
 
-        $res = $client->request('post', 'https://api-soida.applamdep.com/api/check-access-slug', [
+        $res = $client->request('post', API_BaseUrl."/api/check-access-slug", [
             'json' => [
                 'slug'=> $slug
               ]
@@ -282,7 +282,7 @@ class HistoryController extends Controller
      {
      
       
-        $ipClient = "42.113.43.172";
+        $ipClient = $this->get_ip();
 
         $connectionType = $request->input('connectionType',"");
         $timeConnection = $request->input('timeConnection',"");
@@ -294,7 +294,8 @@ class HistoryController extends Controller
         $ageUser =  session('ageUser', '');
         $gameType =session('gameType', "");
         $client1 = new Client();
-        $linkUrl = "http://ip-api.com/json/".$ipClient;
+        $ipApiUrl = env('IP_API_URL', 'http://ip-api.com');
+        $linkUrl = $ipApiUrl."/json/".$ipClient;
         $res1 = $client1->request('get',$linkUrl);
          if($res1->getStatusCode() ==200)
         {
@@ -405,7 +406,7 @@ public function AddClickZalo (Request $request)
 
         ];
         $client = new Client();
-        $res = $client->request('post',"https://api-soida.applamdep.com/api/add-type-contact" , [
+        $res = $client->request('post', API_BaseUrl."/api/add-type-contact" , [
         'json' =>$dataUpdate
         ]   
         );
@@ -431,7 +432,7 @@ public function AddClickZalo (Request $request)
             "Company_Id"=> $this->getCompanyId()
          ];
          $client = new Client();
-         $res = $client->request('post',"https://api-soida.applamdep.com/api/add-type-contact2" , [
+         $res = $client->request('post', API_BaseUrl."/api/add-type-contact2" , [
          'json' =>$dataUpdate
          ]   
          );

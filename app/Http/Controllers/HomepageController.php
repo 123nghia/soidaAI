@@ -27,10 +27,10 @@ class HomepageController extends Controller
 
     public function CheckUrl ($slug) 
     {
-        $checkacssSlugUrl ="https://api-soida.applamdep.com/api/check-access-slug";
+        $checkacssSlugUrl = API_BaseUrl."/api/check-access-slug";
         $client = new Client();
 
-        $res = $client->request('post', 'https://api-soida.applamdep.com/api/check-access-slug', [
+        $res = $client->request('post', API_BaseUrl."/api/check-access-slug", [
             'json' => [
                 'slug'=> $slug
               ]
@@ -217,7 +217,8 @@ public function getDataInfo (Request $request)
 
         ]
      ];
-        $url = "https://api.deal24h.vn"."/".Footer_getAll;
+        $deal24hApiUrl = env('DEAL24H_API_URL', 'https://api.deal24h.vn');
+        $url = $deal24hApiUrl."/".Footer_getAll;
       $client = new Client();
       $res = $client->request('get', $url, $params);
          if($res->getStatusCode() ==200)
@@ -250,7 +251,7 @@ public function getDataInfo (Request $request)
     { 
         
 
-        $url1 = "https://api-soida.applamdep.com/api/distribution/getRoudRobin";
+        $url1 = API_BaseUrl."/api/distribution/getRoudRobin";
         $client = new Client();
         $res = $client->request('get', $url1);
 
@@ -273,7 +274,7 @@ public function getDataInfo (Request $request)
             'company_id' => "-1"
              ]
         ];
-        $url = "https://api-soida.applamdep.com/api/baner/getAllBannerWeb";
+        $url = API_BaseUrl."/api/baner/getAllBannerWeb";
         $client = new Client();
         $res = $client->request('get', $url, $params);
 
@@ -354,7 +355,7 @@ public function getDataInfo (Request $request)
             'company_id' => "-1"
              ]
         ];
-        $url = "https://api-soida.applamdep.com/api/baner/getAllBannerWeb";
+        $url = API_BaseUrl."/api/baner/getAllBannerWeb";
         $client = new Client();
         $res = $client->request('get', $url, $params);
 
@@ -430,7 +431,7 @@ public function getDataInfo (Request $request)
     private function checkGameStatus($slug)
     {
 
-        $url ="https://api-soida.applamdep.com/api/get-game-active";
+        $url = API_BaseUrl."/api/get-game-active";
         $client = new Client();
 
         $res = $client->request('get', $url, [
@@ -460,7 +461,7 @@ public function getDataInfo (Request $request)
     private function getDataById($id)
     {
     
-        $url ="https://api-soida.applamdep.com/api/getInfoUser?id=".$id;
+        $url = API_BaseUrl."/api/getInfoUser?id=".$id;
         $client = new Client();
         $res = $client->request('get', $url, [
             'json' => [
@@ -487,7 +488,7 @@ public function getDataInfo (Request $request)
     private function getBeauty($slug)
     {
     
-        $url ="https://api-soida.applamdep.com/api/gameBeauty/getInfo2?slug=".$slug;
+        $url = API_BaseUrl."/api/gameBeauty/getInfo2?slug=".$slug;
         $client = new Client();
 
         $res = $client->request('get', $url, [
@@ -515,7 +516,7 @@ public function getDataInfo (Request $request)
     private function getTuVan($slug)
     {
     
-        $url ="https://api-soida.applamdep.com/api/tuvan/getInfo2?slug=".$slug;
+        $url = API_BaseUrl."/api/tuvan/getInfo2?slug=".$slug;
         $client = new Client();
 
         $res = $client->request('get', $url, [
@@ -547,11 +548,11 @@ public function getDataInfo (Request $request)
     {
         return false;
     
-        $url ="https://api-soida.applamdep.com/api/get-hisotry-by-ip";
+        $url = API_BaseUrl."/api/get-hisotry-by-ip";
         $ipClinet = "115.79.192.86";
         $client = new Client();
       
-        $res =$client->request('post', 'https://api-soida.applamdep.com/api/get-hisotry-by-ip', [
+        $res =$client->request('post', API_BaseUrl."/api/get-hisotry-by-ip", [
             'json' => [
                  'ipRequest'=> $ipClinet
               ]
@@ -575,7 +576,7 @@ public function getDataInfo (Request $request)
     private function getGameXemtuong($companyId)
     {
 
-        $url ="https://api-soida.applamdep.com/api/xemtuong/getInfoAdmin";
+        $url = API_BaseUrl."/api/xemtuong/getInfoAdmin";
         $client = new Client();
       
 
@@ -601,7 +602,7 @@ public function getDataInfo (Request $request)
     private function getGameActive($companyId)
     {
 
-        $url ="https://api-soida.applamdep.com/api/get-game-active";
+        $url = API_BaseUrl."/api/get-game-active";
         $client = new Client();
       
 
@@ -629,7 +630,7 @@ public function getDataInfo (Request $request)
     private function getAIConfig($slug)
     {
 
-        $url ="https://api-soida.applamdep.com/api/aiConfig/getInfo";
+        $url = API_BaseUrl."/api/aiConfig/getInfo";
         $client = new Client();
       
 
@@ -658,7 +659,7 @@ public function getDataInfo (Request $request)
     private function getGameMinisize($companyId)
     {
 
-        $url ="https://api-soida.applamdep.com/api/minisize/getInfoAdmin";
+        $url = API_BaseUrl."/api/minisize/getInfoAdmin";
         $client = new Client();
       
 
@@ -687,7 +688,7 @@ public function getDataInfo (Request $request)
     private function getConfigSetting($companyId)
     {
 
-        $url ="https://api-soida.applamdep.com/api/settingBanner/getInfo";
+        $url = API_BaseUrl."/api/settingBanner/getInfo";
         $client = new Client();
       
 
@@ -1166,9 +1167,9 @@ public function getDataInfo (Request $request)
         }
         
         $slug = "";
-        $checkacssSlugUrl ="https://api-soida.applamdep.com/api/get-detail-history-skin";
+        $checkacssSlugUrl = API_BaseUrl."/api/get-detail-history-skin";
         $client = new Client();
-        $res = $client->request('post', 'https://api-soida.applamdep.com/api/get-detail-history-skin', [
+        $res = $client->request('post', API_BaseUrl."/api/get-detail-history-skin", [
             'json' => [
                  'id'=> $id
               ]
@@ -1216,9 +1217,9 @@ public function getDataInfo (Request $request)
         }
         
         $slug = "";
-        $checkacssSlugUrl ="https://api-soida.applamdep.com/api/get-detail-history-skin";
+        $checkacssSlugUrl = API_BaseUrl."/api/get-detail-history-skin";
         $client = new Client();
-        $res = $client->request('post', 'https://api-soida.applamdep.com/api/get-detail-history-skin', [
+        $res = $client->request('post', API_BaseUrl."/api/get-detail-history-skin", [
             'json' => [
                  'id'=> $id
               ]
@@ -1349,7 +1350,8 @@ public function getDataInfo (Request $request)
             ];
 
  
-            $url = "https://portal.applamdep.com/api/skin/portalApp";
+            $portalApiUrl = env('PORTAL_API_URL', 'https://portal.applamdep.com');
+            $url = $portalApiUrl."/api/skin/portalApp";
 
             $client = new Client();
             $res = $client->request('post',$url , [
