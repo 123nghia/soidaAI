@@ -15,7 +15,8 @@ class GegemiController extends Controller
         $historyIdUpdate = $request->input("historyId");
         $question = $request->input("question");
 
-        $aiApiBaseUrl = env('AI_API_URL', 'http://45.76.161.30:3030');
+        // Cho phép cấu hình host AI qua env, mặc định dùng tên service trong Docker
+        $aiApiBaseUrl = env('AI_API_URL', 'http://gegemi-app:3030');
         $updateAiApiUrl = env('UPDATE_AI_API_URL', 'https://api-ai.exomiyo.com');
         $aiApiUrl = $aiApiBaseUrl."/api/skin/analysisAI";
         $updateHistoryUrl = $updateAiApiUrl."/api/update_resultAI";

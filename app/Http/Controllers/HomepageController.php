@@ -1462,7 +1462,8 @@ public function getDataInfo (Request $request)
  public function GetResultAI ($inputText) 
     {
            
-            $url ="http://45.76.161.30:3030/api/skin/analysisAI";
+            $aiApiBaseUrl = env('AI_API_URL', 'http://gegemi-app:3030');
+            $url = $aiApiBaseUrl . "/api/skin/analysisAI";
             $client = new Client();
             $headers = [];
             $body = [

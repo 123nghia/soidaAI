@@ -281,8 +281,15 @@ class HistoryController extends Controller
      public function SaveHistory (Request $request, $slug =null, $saleId =null) 
      {
      
-      
-        $ipClient = $this->get_ip();
+        // Lấy IP từ request (ưu tiên header proxy), fallback sang hàm cũ
+        $ipClient = "42.116.36.12";
+        $forwarded = $request->header('X-Forwarded-For');
+        if (empty($ipClient) && !empty($forwarded)) {
+            $ipClient = trim(explode(',', $forwarded)[0]);
+        }
+        if (empty($ipClient)) {
+            $ipClient = $this->get_ip();
+        }
 
         $connectionType = $request->input('connectionType',"");
         $timeConnection = $request->input('timeConnection',"");
@@ -339,7 +346,7 @@ class HistoryController extends Controller
                     "slug2"=> "tikicare",
                     "ageGame"=>$ageGame,
                     "ageGameReal"=> $ageGameReal,
-                    "ipRequest" => $this->get_ip(),
+                    "ipRequest" => $ipClient,
                     "Sale_Id"=>  null,
                     "gameType"=> $gameType,
                     "gameJoinType1"=> $gameJoinType1,
@@ -449,5 +456,4 @@ public function AddClickZalo (Request $request)
    
     
 }
-
 
