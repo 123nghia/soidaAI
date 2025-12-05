@@ -166,7 +166,7 @@
                         onclick="skinModule.openCamera()">
                         <span>Chụp ảnh
                             <img data-src="contain/img/icons/camera.svg" src="/img/icons/camera.svg">
-                            <input type="file" name="file" id="nativeCameraInput" accept="image/*" capture="user"
+                            <input type="file" name="file" id="nativeCameraInput" accept="image/jpeg,image/png" capture="user"
                                 hidden="">
                         </span>
                     </button>
@@ -175,7 +175,7 @@
                         <span>
                             Chọn ảnh
                             <img data-src="contain/img/icons/photo.svg" src="/img/icons/photo.svg">
-                            <input type="file" name="file" id="localImageInput" accept="image/*" hidden="">
+                            <input type="file" name="file" id="localImageInput" accept="image/jpeg,image/png" hidden="">
                         </span>
                     </button>
 
@@ -689,7 +689,7 @@
                                 openPopupSuccess(false);
                                 openPoupupLoading(false);
 
-                                alert("Xin vui lòng thử lại");
+                                showCallSoiDaError(null, secondResponse);
 
                             }
                         },
@@ -699,7 +699,7 @@
                             openPopupSuccess(false);
                             openPoupupLoading(false);
 
-                            alert("Xin vui lòng thử lại");
+                            showCallSoiDaError(jqXHR);
                         },
                         complete: function() {
                             openPoupupLoading(false);
@@ -739,7 +739,7 @@
                             openPopupSuccess(false);
                             openPoupupLoading(false);
 
-                            alert("Xin vui lòng thử lại");
+                            showCallSoiDaError(err && err.response ? err.response : null, err);
                         })
                         .finally(function() {
                             openPoupupLoading(false);
@@ -1061,41 +1061,68 @@
                     });
                 }
 
-                function processCaptureImage(imgUrl) {
-                    
+                // Đặt ảnh đã crop vào thẻ img và chỉ gọi upload khi ảnh đã load xong.
+                function setImageAndUpload(outputUrl) {
+                    return new Promise(function(resolve, reject) {
+                        var onLoad = function() {
+                            imageProcess.removeEventListener("load", onLoad);
+                            imageProcess.removeEventListener("error", onError);
+                            try {
+                                skinModule.uploadImage();
+                                resolve();
+                            } catch (e) {
+                                reject(e);
+                            }
+                        };
+                        var onError = function() {
+                            imageProcess.removeEventListener("load", onLoad);
+                            imageProcess.removeEventListener("error", onError);
+                            reject(new Error("Không thể đọc ảnh đã chụp"));
+                        };
 
-                 
+                        imageProcess.addEventListener("load", onLoad, { once: true });
+                        imageProcess.addEventListener("error", onError, { once: true });
+                        imageProcess.setAttribute("src", outputUrl);
+
+                        // Một số thiết bị mobile trả complete ngay lập tức
+                        if (imageProcess.complete && imageProcess.naturalWidth) {
+                            onLoad();
+                        }
+                    }).catch(function(err) {
+                        console.error("Không thể tải ảnh để upload:", err);
+                        showCallSoiDaError(null, { message: "Không thể xử lý ảnh, vui lòng chụp lại." });
+                    });
+                }
+
+                function processCaptureImage(imgUrl) {
                        squareCropAndResizeImage(imgUrl, 300)
                         .then(function(outputUrl) {
-                            imageProcess.setAttribute("src", outputUrl);
-
-                            setTimeout(() => {
-                                        
-                                        skinModule.uploadImage();
-
-                             }, 500);
+                            return setImageAndUpload(outputUrl);
                         })
                         .catch(function(err) {
                             console.error("Error ocurred when cropping image: ", err);
+                            showCallSoiDaError(null, { message: "Xử lý ảnh thất bại, vui lòng thử lại." });
                         });
                 }
 
                 function processLocalImage(file) {
                     if (file) {
+                        // Chặn các định dạng camera Samsung trả về HEIC/HEIF không hỗ trợ
+                        var allowed = ["image/jpeg", "image/png"];
+                        if (allowed.indexOf(file.type) === -1) {
+                            showCallSoiDaError(null, { message: "Thiết bị đang lưu ảnh dạng không hỗ trợ (ví dụ HEIC). Vui lòng vào cài đặt camera chọn định dạng JPG/PNG hoặc dùng thư viện ảnh." });
+                            return;
+                        }
+
                         const reader = new FileReader();
                         reader.onload = function(e) {
                             squareCropAndResizeImage(e.target.result, 300)
                                 .then(function(outputUrl) {
-                                    imageProcess.setAttribute("src", outputUrl);
-
-                                    setTimeout(() => {
-                                        
-                                        skinModule.uploadImage();
-
-                                    }, 500);
+                                    return setImageAndUpload(outputUrl);
                                 })
                                 .catch(function(err) {
                                     console.error("Error ocurred when cropping image: ", err);
+                                    showCallSoiDaError(null, { message: "Xử lý ảnh thất bại, vui lòng thử lại." });
                                 });
                         };
                         reader.readAsDataURL(file);
@@ -1743,4 +1770,3 @@ background-color: transparent;
  color: #ffffff;
 }
 </style>
-

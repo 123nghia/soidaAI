@@ -569,7 +569,7 @@ $dataSeo = "Soida liền tay";
                                 openPopupSuccess(false);
                                 openPoupupLoading(false);
 
-                                alert("Xin vui lòng thử lại");
+                                showCallSoiDaError(null, secondResponse);
 
                             }
                         },
@@ -579,7 +579,7 @@ $dataSeo = "Soida liền tay";
                             openPopupSuccess(false);
                             openPoupupLoading(false);
 
-                            alert("Xin vui lòng thử lại");
+                            showCallSoiDaError(jqXHR);
                         },
                         complete: function() {
                             openPoupupLoading(false);
@@ -619,7 +619,7 @@ $dataSeo = "Soida liền tay";
                             openPopupSuccess(false);
                             openPoupupLoading(false);
 
-                            alert("Xin vui lòng thử lại");
+                            showCallSoiDaError(err && err.response ? err.response : null, err);
                         })
                         .finally(function() {
                             openPoupupLoading(false);

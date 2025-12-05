@@ -688,7 +688,7 @@
                                 openPopupSuccess(false);
                                 openPoupupLoading(false);
 
-                                alert("Xin vui lòng thử lại");
+                                showCallSoiDaError(null, secondResponse);
 
                             }
                         },
@@ -698,7 +698,7 @@
                             openPopupSuccess(false);
                             openPoupupLoading(false);
 
-                            alert("Xin vui lòng thử lại");
+                            showCallSoiDaError(jqXHR);
                         },
                         complete: function() {
                             openPoupupLoading(false);
@@ -738,7 +738,7 @@
                             openPopupSuccess(false);
                             openPoupupLoading(false);
 
-                            alert("Xin vui lòng thử lại");
+                            showCallSoiDaError(err && err.response ? err.response : null, err);
                         })
                         .finally(function() {
                             openPoupupLoading(false);
@@ -1756,4 +1756,3 @@ background-color: transparent;
  color: #ffffff;
 }
 </style>
-

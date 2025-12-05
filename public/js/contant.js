@@ -33,6 +33,48 @@ if (slug !== "") {
 if(slug === 'cong-tac-vien/' || slug === 'chinh-sach-va-bao-mat/' || slug === 'dieu-khoan-va-su-dung/' ||slug === 'chinh-sach-bao-hanh/' ||slug === 'chinh-sach-tra-hang/' || slug ==='chinh-sach-bao-mat-thanh-toan/' || slug ==='van-chuyen-va-giao-hang/'){
   slug = '';
 }
+// Helper: build readable error message when calling soi-da API
+function buildSoiDaErrorMessage(jqXHR, responseBody) {
+  var msg = "";
+
+  // Prefer explicit fields from response payload (if provided by backend)
+  if (responseBody && typeof responseBody === "object") {
+    msg = responseBody.message || responseBody.error || responseBody.msg || "";
+  }
+
+  // Inspect JSON body from jQuery error response
+  if (!msg && jqXHR && jqXHR.responseJSON && typeof jqXHR.responseJSON === "object") {
+    msg = jqXHR.responseJSON.message || jqXHR.responseJSON.error || jqXHR.responseJSON.msg || "";
+  }
+
+  // Try parsing text response as JSON, otherwise use raw text
+  if (!msg && jqXHR && jqXHR.responseText) {
+    try {
+      var parsed = JSON.parse(jqXHR.responseText);
+      if (parsed && typeof parsed === "object") {
+        msg = parsed.message || parsed.error || parsed.msg || "";
+      }
+    } catch (err) {
+      // Not JSON; fall back to plain text content
+      msg = jqXHR.responseText;
+    }
+  }
+
+  // Append HTTP status if available
+  if (!msg && jqXHR && jqXHR.status) {
+    msg = "Lỗi (" + jqXHR.status + " " + (jqXHR.statusText || "") + ")";
+  }
+
+  if (!msg) {
+    msg = "Đã xảy ra lỗi, vui lòng thử lại.";
+  }
+
+  return msg;
+}
+
+function showCallSoiDaError(jqXHR, responseBody) {
+  alert(buildSoiDaErrorMessage(jqXHR, responseBody));
+}
 var  api =  {
 
     baser_url:  API_BASE_URL,
