@@ -2,17 +2,18 @@ APP_NAME=Laravel
 APP_ENV=local
 APP_KEY=base64:geHe4FK8js7ENFJ6/Z7t4y3TVpb1JB889WJtCesrQ+o=
 APP_DEBUG=true
-APP_URL=http://192.168.1.237:8001
-API_URL=https://api-soida.applamdep.com
+APP_URL=https://testapp.applamdep.com
+API_URL=http://api:9012
+PORTAL_URL=http://tikitechservetotal:9010
 
 LOG_CHANNEL=stack
 
 DB_CONNECTION=mysql
-DB_HOST=127.0.0.1
+DB_HOST=mysql
 DB_PORT=3306
-DB_DATABASE=laravel
-DB_USERNAME=root
-DB_PASSWORD=
+DB_DATABASE=laravel_db
+DB_USERNAME=laravel_user
+DB_PASSWORD=user_secret
 
 BROADCAST_DRIVER=log
 CACHE_DRIVER=file
@@ -20,7 +21,7 @@ QUEUE_CONNECTION=sync
 SESSION_DRIVER=file
 SESSION_LIFETIME=120
 
-REDIS_HOST=127.0.0.1
+REDIS_HOST=redis
 REDIS_PASSWORD=null
 REDIS_PORT=6379
 
@@ -46,6 +47,9 @@ MIX_PUSHER_APP_CLUSTER="${PUSHER_APP_CLUSTER}"
 
 IP_API_URL=http://ip-api.com
 DEAL24H_API_URL=https://api.deal24h.vn
-PORTAL_API_URL=https://portal.applamdep.com
-AI_API_URL=http://local:3030
-UPDATE_AI_API_URL=https://api-soida.applamdep.com
+PORTAL_API_URL=http://tikitechservetotal:9010
+TIKITECH_SERVE_TOTAL_URL=http://tikitechservetotal:9010
+SKINMEITU_API_URL=http://skinmeitu:9011
+API_SERVICE_URL=http://api:9012
+GEGEMI_API_URL=http://gegemi-app:3030
+UPDATE_AI_API_URL=http://api:9012

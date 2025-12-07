@@ -338,14 +338,13 @@
           
 
                 <div class="uploadButton cameraNow" >
-                    @if($slug =="demo")
+                    
                         <div class="action-cta action-cta-take ">
                         <input type="button" onclick="choseImage()" class="upload-file">
                         <div class="icn"><img src="./assets/choseImage.svg" alt="" class="selfie"></div>
                         <div class="txt">Chọn ảnh</div>
                         </div>
-                    @endif
-                   
+                    
 
                     <div class="nav-avatar nav-avatar__camera" onclick="haldleOpenCamera()" style="
                     background-color: red;
@@ -992,21 +991,40 @@
                 }
 
                 function addEventListenerForCamera() {
+                    video.setAttribute("playsinline", true); // avoid fullscreen on iOS/Android
+                    video.setAttribute("muted", true);
+                    video.setAttribute("autoplay", true);
+
+                    video.addEventListener(
+                        "loadedmetadata",
+                        function() {
+                            // Use actual metadata width/height; fallback to default ratio if missing
+                            const vw = video.videoWidth || width;
+                            const vh = video.videoHeight || height || (width / (4 / 3));
+                            width = vw;
+                            height = vh;
+                            video.setAttribute("width", vw);
+                            video.setAttribute("height", vh);
+                            canvas.setAttribute("width", vw);
+                            canvas.setAttribute("height", vh);
+                            streaming = true;
+                        },
+                        false
+                    );
+
                     video.addEventListener(
                         "canplay",
-                        function(ev) {
-                            if (!streaming) {
-                                height = video.videoHeight / (video.videoWidth / width);
-
-                                if (isNaN(height)) {
-                                    height = width / (4 / 3);
-                                }
-                                video.setAttribute("width", width);
-                                video.setAttribute("height", height);
-                                canvas.setAttribute("width", width);
-                                canvas.setAttribute("height", height);
-                                streaming = true;
-                            }
+                        function() {
+                            if (streaming) return;
+                            const vw = video.videoWidth || width;
+                            const vh = video.videoHeight || height || (width / (4 / 3));
+                            width = vw;
+                            height = vh;
+                            video.setAttribute("width", vw);
+                            video.setAttribute("height", vh);
+                            canvas.setAttribute("width", vw);
+                            canvas.setAttribute("height", vh);
+                            streaming = true;
                         },
                         false
                     );
@@ -1022,22 +1040,25 @@
                 }
 
                 function takePicture() {
-
-
                     const context = canvas.getContext("2d");
+                    const vw = video.videoWidth || width;
+                    const vh = video.videoHeight || height || (width / (4 / 3));
 
-                    if (width && height) {
-
-                        canvas.width = video.width;
-                        canvas.height = video.height;
-                        context.translate(width, 0);
+                    if (vw && vh) {
+                        canvas.width = vw;
+                        canvas.height = vh;
+                        context.save();
+                        context.translate(vw, 0);
                         context.scale(-1, 1);
-                        context.drawImage(video, 0, 0, width, height);
+                        context.drawImage(video, 0, 0, vw, vh);
+                        context.restore();
+
                         const imgUrl = canvas.toDataURL("image/png");
                         imageShow.setAttribute("src", imgUrl);
-
-
                         processCaptureImage(imgUrl);
+                    } else {
+                        alert("Camera chưa sẵn sàng, vui lòng thử lại");
+                        return;
                     }
 
                     toggleCaptureBtn((show = false));
@@ -1446,9 +1467,6 @@
             setTimeout(() => {
                 $("#choseImageFile").click();
             }, 1000);
-
-          
-
 
         }
 

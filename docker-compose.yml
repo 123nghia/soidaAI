@@ -12,7 +12,7 @@ services:
     volumes:
       - ./:/var/www/html
     networks:
-      - laravel_network
+      - tikitech_network
 
   # -------------------------------------------------------------------
   # 2. SERVICE NGINX
@@ -34,7 +34,7 @@ services:
     depends_on:
       - app
     networks:
-      - laravel_network
+      - tikitech_network
 
   # -------------------------------------------------------------------
   # 3. SERVICE DATABASE (db)
@@ -53,12 +53,12 @@ services:
     ports:
       - "3306:3306"
     networks:
-      - laravel_network
+      - tikitech_network
 
 volumes:
   dbdata:
 
 networks:
-  laravel_network:
+  tikitech_network:
     external: true
-    name: laravel_network
+    name: tikitech_network

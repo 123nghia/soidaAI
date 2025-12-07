@@ -1363,16 +1363,27 @@ public function getDataInfo (Request $request)
                 $checkresult = $res->getBody()->getContents();
                 $data = json_decode($checkresult);
 
-            
+                // Defensive check to avoid "Undefined property: stdClass::$data" when upstream errors
+                if (!is_object($data) || !isset($data->data)) {
+                    Log::error("callSikin: invalid response from portal API", ['body' => $checkresult]);
+                    return [
+                        "is_success" => false,
+                        "reward" => false,
+                        "message" => "Dữ liệu trả về từ server không hợp lệ"
+                    ];
+                }
+
                 $data = $data->data;
                 
 
                 session(['dataResult' =>$data]);
                 session(['rewardCheck' =>true]);
                 $data  =  session('dataResult', null);
-                $skin =  $data->data->facedata->hintResult;
+                $skin =  $data->data->facedata->hintResult ?? null;
 
-                $d =$this->SaveSound($skin);
+                if ($skin) {
+                    $d =$this->SaveSound($skin);
+                }
 
 
                 //$url ="https://api.fpt.ai/hmi/tts/v5";
